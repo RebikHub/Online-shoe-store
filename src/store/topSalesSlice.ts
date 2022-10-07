@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type State = {
+  topSales: [],
+  loading: boolean,
+  error: null | string
+}
 
 export const topSalesSlice = createSlice({
   name: 'topSalesSlice',
