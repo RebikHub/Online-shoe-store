@@ -63,7 +63,7 @@ export default function Order() {
   if (loading) {
     return <Preloader/>
   };
-console.log(item);
+
   return (
     <section className="catalog-item">
       <h2 className="text-center">{item.title}</h2>

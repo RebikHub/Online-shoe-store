@@ -14,7 +14,7 @@ export default function Header() {
   const [inputForm, setInputForm] = useState('invisible');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let location = useLocation();
+  const location = useLocation();
 
   useEffect(() => {
     const local =  getArrayFromStorage();

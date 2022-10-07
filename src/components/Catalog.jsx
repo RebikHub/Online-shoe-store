@@ -27,9 +27,7 @@ export default function Catalog(props) {
 
     if (search === '') {
       dispatch(getItems());
-    };
-
-    if (search !== '') {
+    } else {
       dispatch(getSearch(search));
       dispatch(clearSearch());
     };
@@ -38,10 +36,6 @@ export default function Catalog(props) {
   function getCategory(ev, id) {
     ev.preventDefault();
     dispatch(getItems(id));
-  };
-
-  function handleMore() {
-    dispatch(getItemsMore(cat.id, items.length, search));
   };
 
   return (
@@ -79,7 +73,7 @@ export default function Catalog(props) {
 
         {empty ? null : <div className="text-center">
           <button className="btn btn-outline-primary"
-            onClick={handleMore}>Загрузить ещё</button>
+            onClick={() => dispatch(getItemsMore(cat.id, items.length, search))}>Загрузить ещё</button>
         </div>}
 
       </div>}

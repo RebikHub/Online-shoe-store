@@ -7,7 +7,7 @@ import { changeSearch, clearSearch } from '../store/searchSlice';
 export default function FormSearch({classStyle}) {
   const { search } = useSelector((state) => state.searchSlice);
   const dispatch = useDispatch();
-  let location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
   function submit(ev) {
@@ -22,16 +22,12 @@ export default function FormSearch({classStyle}) {
     };
   };
 
-  function inputSearch(ev) {
-    dispatch(changeSearch(ev.target.value));
-  };
-
   return (
     <form className={`${classStyle ? classStyle : 'catalog-search-form'} form-inline`}
       onSubmit={submit}>
       <input className="form-control" placeholder="Поиск"
       value={search}
-      onChange={inputSearch}/>
+      onChange={(ev) => dispatch(changeSearch(ev.target.value))}/>
     </form>
   );
 };

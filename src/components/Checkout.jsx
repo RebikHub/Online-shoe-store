@@ -15,14 +15,6 @@ export default function Checkout() {
   const [errorOrder, setErrorOrder] = useState(false);
   const dispatch = useDispatch();
 
-  function inputPhone(ev) {
-    setInput((prev) => ({...prev, phone: ev.target.value}));
-  };
-
-  function inputAddress(ev) {
-    setInput((prev) => ({...prev, address: ev.target.value}));
-  };
-
   function submit() {
     if (input.address !== '' && input.phone !== '' && orders.length !== 0) {
       dispatch(postOrder({
@@ -67,13 +59,13 @@ export default function Checkout() {
             <label htmlFor="phone">Телефон</label>
             <input className="form-control" placeholder="Ваш телефон"
               value={input.phone}
-              onChange={inputPhone}/>
+              onChange={(ev) => setInput((prev) => ({...prev, phone: ev.target.value}))}/>
           </div>
           <div className="form-group">
             <label htmlFor="address">Адрес доставки</label>
             <input className="form-control" id="address" placeholder="Адрес доставки"
             value={input.address}
-            onChange={inputAddress}/>
+            onChange={(ev) => setInput((prev) => ({...prev, address: ev.target.value}))}/>
           </div>
           <div className="form-group form-check">
             <input type="checkbox" className="form-check-input" id="agreement"/>
