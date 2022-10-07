@@ -2,6 +2,8 @@
 
 [Link to project](https://rebikhub.github.io/Online-shoe-store/)
 
+[backend](https://github.com/RebikHub/ra-diplom-back)
+
 # Дипломный проект курса «React»
 
 Дипломный проект представляет собой интернет-магазин обуви. Задача заключается в создании работающего приложения, всеми основными функциями которого можно пользоваться.
