@@ -22,7 +22,7 @@ export default function App() {
         }/>
         <Route path="/catalog" element={
           <Catalog>
-            <FormSearch/>
+            <FormSearch classStyle={null}/>
           </Catalog>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/contacts" element={<Contacts/>}/>

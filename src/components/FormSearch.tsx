@@ -4,7 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getSearch } from '../store/middleware';
 import { changeSearch, clearSearch } from '../store/searchSlice';
 
-export default function FormSearch({classStyle}) {
+type Props = {
+  classStyle: string | null
+}
+
+export default function FormSearch({classStyle}: Props) {
   const { search } = useSelector((state) => state.searchSlice);
   const dispatch = useDispatch();
   const location = useLocation();
