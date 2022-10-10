@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { ReactElement } from 'react';
 import { useEffect } from 'react';
 import { OrderInput } from '../interfaces';
@@ -62,13 +62,13 @@ export default function Checkout(): ReactElement {
             <label htmlFor="phone">Телефон</label>
             <input className="form-control" placeholder="Ваш телефон"
               value={input.phone}
-              onChange={(ev) => setInput((prev) => ({...prev, phone: ev.target.value}))}/>
+              onChange={(ev: ChangeEvent<HTMLInputElement>) => setInput((prev) => ({...prev, phone: ev.target.value}))}/>
           </div>
           <div className="form-group">
             <label htmlFor="address">Адрес доставки</label>
             <input className="form-control" id="address" placeholder="Адрес доставки"
             value={input.address}
-            onChange={(ev) => setInput((prev) => ({...prev, address: ev.target.value}))}/>
+            onChange={(ev: ChangeEvent<HTMLInputElement>) => setInput((prev) => ({...prev, address: ev.target.value}))}/>
           </div>
           <div className="form-group form-check">
             <input type="checkbox" className="form-check-input" id="agreement"/>

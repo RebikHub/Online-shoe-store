@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Outlet } from 'react-router-dom';
-import banner from '../img/banner.jpg';
 import Footer from './Footer';
 import Header from './Header';
 
-export default function HeaderAndFooter() {
+export default function HeaderAndFooter(): ReactElement {
+  const banner = require('../img/banner.jpg');
   return (
     <>
       <Header/>

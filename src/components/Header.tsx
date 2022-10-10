@@ -1,19 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { ReactElement } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import getArrayFromStorage from '../arrayFromStorage';
-import headerLogo from '../img/header-logo.png';
 import { updateCart } from '../store/cartSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { clearSearch } from '../store/searchSlice';
 import FormSearch from './FormSearch';
 import HeaderCart from './HeaderCart';
 
-export default function Header() {
-  const { search } = useSelector((state) => state.searchSlice);
-  const [inputForm, setInputForm] = useState('invisible');
+export default function Header(): ReactElement {
+  const headerLogo = require('../img/header-logo.png');
+  const { search } = useAppSelector((state) => state.searchSlice);
+  const [inputForm, setInputForm] = useState<string>('invisible');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
 
   useEffect(() => {

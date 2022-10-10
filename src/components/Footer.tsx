@@ -1,7 +1,8 @@
 import React from 'react';
+import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Footer() {
+export default function Footer(): ReactElement {
   return (
     <footer className="container bg-light footer">
       <div className="row">

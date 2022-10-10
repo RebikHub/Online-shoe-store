@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../store/hooks';
 
-export default function HeaderCart() {
-  const [amount, setAmount] = useState(null);
-  const {orders} = useSelector((state) => state.cartSlice);
+export default function HeaderCart(): ReactElement {
+  const [amount, setAmount] = useState<null | number>(null);
+  const {orders} = useAppSelector((state) => state.cartSlice);
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (orders.length !== 0) {
+    if (orders) {
       setAmount(orders.length);
     } else {
       setAmount(null);
     };
-  }, [orders.length]);
+  }, [orders]);
 
   return (
     <div className="header-controls-pic header-controls-cart" onClick={() => navigate('/cart')}>

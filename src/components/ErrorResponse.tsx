@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 type Props = {
   error: string,
   handleError: () => void
-}
+};
 
 export default function ErrorResponse({error, handleError}: Props): ReactElement {
   return (
