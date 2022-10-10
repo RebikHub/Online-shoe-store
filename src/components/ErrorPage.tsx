@@ -1,6 +1,6 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
-export default function ErrorPage() {
+export default function ErrorPage(): ReactElement {
   
   return (
     <section className="top-sales">

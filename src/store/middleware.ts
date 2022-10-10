@@ -1,5 +1,5 @@
 import { AppDispatch } from ".";
-import { Order } from "../interfaces";
+import { PostOrderItem } from "../interfaces";
 import { postCartFailure, postCartRequest, postCartSuccess } from "./cartSlice";
 import {
   currentCategoriesId,
@@ -50,13 +50,13 @@ export function getCategories() {
       const data = await response.json();
 
       dispatch(fetchCategoriesSuccess(data));
-    } catch (error) {
+    } catch (e) {
       dispatch(fetchCategoriesFailure('Что то пошло не так!'));
     };
   };
 };
 
-export function getItems(id: number) {
+export function getItems(id: number | null) {
   return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
     let url = '';
@@ -75,7 +75,7 @@ export function getItems(id: number) {
       };
       const data = await response.json();
       dispatch(fetchItemsSuccess(data));
-    } catch (error) {
+    } catch (e) {
       dispatch(fetchItemsFailure('Что то пошло не так!'));
     };
   };
@@ -106,7 +106,7 @@ export function getItemsMore(id: number, offset: number) {
         dispatch(fetchItemsMoreEmpty(null));
       };
 
-    } catch (error) {
+    } catch (e) {
       dispatch(fetchItemsFailure('Что то пошло не так!'));
     };
   };
@@ -154,7 +154,7 @@ export function getOrderItem(id: number) {
   };
 };
 
-export function postOrder(item: Order) {
+export function postOrder(item: PostOrderItem) {
   return async (dispatch: AppDispatch) => {
     dispatch(postCartRequest());
     try {

@@ -1,6 +1,6 @@
-import React, { ReactComponentElement } from "react";
+import React, { ReactElement } from "react";
 
-export default function About(): ReactComponentElement {
+export default function About(): ReactElement {
   
   return (
     <section className="top-sales">

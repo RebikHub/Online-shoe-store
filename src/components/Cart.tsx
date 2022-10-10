@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { ReactElement, useEffect, useState } from "react";
 import getArrayFromStorage from "../arrayFromStorage";
+import { Order } from "../interfaces";
+import { useAppSelector } from "../store/hooks";
 import Checkout from "./Checkout";
 import TableCart from "./TableCart";
 
-export default function Cart() {
-  const [order, setOrder] = useState([]);
-  const { orders } = useSelector((state) => state.cartSlice);
+export default function Cart(): ReactElement {
+  const [order, setOrder] = useState<Order[]>([]);
+  const { orders } = useAppSelector((state) => state.cartSlice);
 
   useEffect(() => {
     const local =  getArrayFromStorage();
     setOrder(local);
-  }, [orders.length]);
+  }, [orders]);
 
   return (
     <>

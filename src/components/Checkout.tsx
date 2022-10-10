@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
+import { ReactElement } from 'react';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { OrderInput } from '../interfaces';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { postOrder } from '../store/middleware';
 import ErrorResponse from './ErrorResponse';
 import Preloader from './Preloader';
 import StatusOrder from './StatusOrder';
 
-export default function Checkout() {
-  const { orders, loading, status, error } = useSelector((state) => state.cartSlice);
-  const [input, setInput] = useState({
+
+export default function Checkout(): ReactElement {
+  const { orders, loading, status, error } = useAppSelector((state) => state.cartSlice);
+  const [input, setInput] = useState<OrderInput>({
     phone: '',
     address: ''
   });
-  const [errorOrder, setErrorOrder] = useState(false);
-  const dispatch = useDispatch();
+  const [errorOrder, setErrorOrder] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   function submit() {
-    if (input.address !== '' && input.phone !== '' && orders.length !== 0) {
+    if (input.address !== '' && input.phone !== '' && orders) {
       dispatch(postOrder({
         owner: input,
         items: orders
@@ -38,7 +41,7 @@ export default function Checkout() {
 
   if (error || errorOrder) {
     return <ErrorResponse
-      error={error ? error : orders.length === 0 ? 'Добавьте товар в карзину!' : 'Заполните все поля!'}
+      error={error ? error : orders === null ? 'Добавьте товар в карзину!' : 'Заполните все поля!'}
       handleError={submit}/>
   };
 

@@ -51,10 +51,20 @@ export type Products = {
   sizes: Size[]
 }
 
+export type OrderInput = {
+  phone: string,
+  address: string
+}
+
 export type Order = {
   count: number,
   id: number,
   price: number,
   size: string,
   title: string
+}
+
+export type PostOrderItem = {
+  owner: OrderInput,
+  items: Order[]
 }

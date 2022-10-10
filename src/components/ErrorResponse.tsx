@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-export default function ErrorResponse({error, handleError}) {
+type Props = {
+  error: string,
+  handleError: () => void
+}
+
+export default function ErrorResponse({error, handleError}: Props): ReactElement {
   return (
     <div className='error'>
       <p className='error-text'>{error}</p>

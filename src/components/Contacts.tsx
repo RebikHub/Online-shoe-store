@@ -1,6 +1,7 @@
 import React from "react";
+import { ReactElement } from "react";
 
-export default function Contacts() {
+export default function Contacts(): ReactElement {
 
   return (
     <section className="top-sales">
