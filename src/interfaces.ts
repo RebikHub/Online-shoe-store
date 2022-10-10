@@ -4,13 +4,13 @@ export interface IStatus {
 };
 
 export interface ICart extends IStatus { // cartslice
-  orders: [] | null;
+  orders: Order[] | null;
   status: boolean;
 };
 
 export interface ICategories extends IStatus { // categoriesslice
   categories: Category[] | null;
-  id: null | string;
+  id: null | number;
 };
 
 export interface IItems extends IStatus { // Itemsslice
@@ -49,4 +49,12 @@ export type Products = {
   price: number,
   oldPrice: number,
   sizes: Size[]
+}
+
+export type Order = {
+  count: number,
+  id: number,
+  price: number,
+  size: string,
+  title: string
 }

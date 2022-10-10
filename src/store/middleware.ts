@@ -1,4 +1,5 @@
 import { AppDispatch } from ".";
+import { Order } from "../interfaces";
 import { postCartFailure, postCartRequest, postCartSuccess } from "./cartSlice";
 import {
   currentCategoriesId,
@@ -27,13 +28,12 @@ export function getTopSales() {
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_TOP);
       if (!response.ok) {
-        console.log(response);
         throw new Error('Something bad happened');
       }
       const data = await response.json();
 
       dispatch(fetchTopSalesSuccess(data));
-    } catch (error) {
+    } catch (e) {
       dispatch(fetchTopSalesFailure('Что то пошло не так!'));
     };
   };
@@ -56,7 +56,7 @@ export function getCategories() {
   };
 };
 
-export function getItems(id) {
+export function getItems(id: number) {
   return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
     let url = '';
@@ -81,7 +81,7 @@ export function getItems(id) {
   };
 };
 
-export function getItemsMore(id, offset, text) {
+export function getItemsMore(id: number, offset: number) {
   return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
 
@@ -103,7 +103,7 @@ export function getItemsMore(id, offset, text) {
       if (data.length > 0) {
         dispatch(fetchItemsMoreSuccess(data));
       } else {
-        dispatch(fetchItemsMoreEmpty());
+        dispatch(fetchItemsMoreEmpty(null));
       };
 
     } catch (error) {
@@ -112,7 +112,7 @@ export function getItemsMore(id, offset, text) {
   };
 };
 
-export function getSearch(text) {
+export function getSearch(text: string) {
   return async (dispatch: AppDispatch) => {
 
     dispatch(fetchItemsRequest());
@@ -137,7 +137,7 @@ export function getSearch(text) {
   };
 };
 
-export function getOrderItem(id) {
+export function getOrderItem(id: number) {
   return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
     try {
@@ -148,13 +148,13 @@ export function getOrderItem(id) {
       };
       const data = await response.json();
       dispatch(fetchItemSuccess(data));
-    } catch (error) {
+    } catch (e) {
       dispatch(fetchItemsFailure('Что то пошло не так!'));
     };
   };
 };
 
-export function postOrder(item) {
+export function postOrder(item: Order) {
   return async (dispatch: AppDispatch) => {
     dispatch(postCartRequest());
     try {
@@ -167,7 +167,7 @@ export function postOrder(item) {
         throw new Error('Something bad happened');
       };
       dispatch(postCartSuccess());
-    } catch (error) {
+    } catch (e) {
       dispatch(postCartFailure('Что то пошло не так!'));
     };
   };

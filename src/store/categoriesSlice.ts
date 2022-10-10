@@ -24,7 +24,7 @@ export const categoriesSlice = createSlice({
       state.loading = false;
       state.categories = action.payload;
     },
-    currentCategoriesId: (state, action: PayloadAction<null | string>) => {
+    currentCategoriesId: (state, action: PayloadAction<null | number>) => {
       state.id = action.payload;
     }
   }

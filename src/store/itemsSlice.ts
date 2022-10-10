@@ -29,10 +29,10 @@ export const itemsSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    fetchItemsMoreSuccess: (state, action: PayloadAction<Products[]>) => {
+    fetchItemsMoreSuccess: (state, action: PayloadAction<Products[] | null>) => {
       state.loading = false;
       state.error = null;
-      if (state.items) {
+      if (state.items && action.payload) {
         const res: Products[] = [];
         action.payload.map((e) => {
           if (state.items) {
