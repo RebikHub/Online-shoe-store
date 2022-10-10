@@ -1,11 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { removeItem } from '../store/cartSlice';
+import { useAppDispatch } from '../store/hooks';
 import { getOrderItem } from '../store/middleware';
 
 export default function TableCart({item, i}) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   function removeOrder(id) {
     localStorage.removeItem(id);

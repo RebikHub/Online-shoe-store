@@ -1,34 +1,38 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ICart } from "../interfaces";
 
+const initialState: ICart = {
+  orders: null,
+  loading: false,
+  error: null,
+  status: false,
+}
 
 export const cartSlice = createSlice({
   name: 'cartSlice',
-  initialState: {
-    orders: [],
-    loading: false,
-    error: null,
-    status: false,
-  },
+  initialState,
   reducers: {
-    removeItem: (state, action) => {
-      state.orders = state.orders.filter((el) => el.id !== action.payload);
+    removeItem: (state, action: PayloadAction<any>) => {
+      if (state.orders) {
+        state.orders = state.orders.filter((el) => el.id !== action.payload);
+      };
     },
-    clearCart: (state, action) => {
-      state.orders = [];
+    clearCart: (state) => {
+      state.orders = null;
       state.status = false;
     },
     updateCart: (state, action) => {
       state.orders = action.payload;
     },
-    postCartRequest: (state, action) => {
+    postCartRequest: (state) => {
       state.loading = true;
       state.error = null;
     },
-    postCartFailure: (state, action) => {
+    postCartFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
-    postCartSuccess: (state, action) => {
+    postCartSuccess: (state) => {
       state.loading = false;
       state.status = true;
     },

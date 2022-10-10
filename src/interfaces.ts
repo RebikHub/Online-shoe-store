@@ -1,53 +1,52 @@
-// categories
+export interface IStatus {
+  loading: boolean;
+  error: null | string;
+};
 
-// [
-//   {
-//       "id": 12,
-//       "title": "Мужская обувь"
-//   },
-//   {
-//       "id": 13,
-//       "title": "Женская обувь"
-//   },
-//   {
-//       "id": 14,
-//       "title": "Обувь унисекс"
-//   },
-//   {
-//       "id": 15,
-//       "title": "Детская обувь"
-//   }
-// ]
+export interface ICart extends IStatus { // cartslice
+  orders: [] | null;
+  status: boolean;
+};
 
-// products
+export interface ICategories extends IStatus { // categoriesslice
+  categories: Category[] | null;
+  id: null | string;
+};
 
-// [
-//   {
-//       "id": 20,
-//       "category": 13,
-//       "title": "Кроссовки как у Pharrell Williams",
-//       "images": [
-//         "https://raw.githubusercontent.com/netology-code/ra16-diploma/master/html/img/products/pharrell_williams_sneakers.jpg",
-//         "https://raw.githubusercontent.com/netology-code/ra16-diploma/master/html/img/products/pharrell_williams_sneakers_2.jpg"
-//       ],
-//       "sku": "1000000",
-//       "manufacturer": "Chanel",
-//       "color": "Черный",
-//       "material": "Ткань",
-//       "reason": "Прогулка",
-//       "season": "Лето",
-//       "heelSize": "3 см.",
-//       "price": 12000,
-//       "oldPrice": 14000,
-//       "sizes": [
-//           {
-//               "size": "10 US",
-//               "avalible": true
-//           },
-//           {
-//               "size": "15 US",
-//               "avalible": false
-//           }
-//       ]
-//   }
-// ]
+export interface IItems extends IStatus { // Itemsslice
+  items: Products[] | null;
+  item: Products[] | null;
+  empty: boolean;
+  searchResponse: boolean;
+};
+
+export interface ITopSales extends IStatus { // topsalesslice
+  topSales: Products[] | null;
+};
+
+export type Category = {
+  id: number,
+  title: string,
+};
+
+export type Size = {
+  size: string,
+  avalible: boolean 
+}
+
+export type Products = {
+  id: number,
+  category: number,
+  title: string,
+  images: string[],
+  sku: string,
+  manufacturer: string,
+  color: string,
+  material: string,
+  reason: string,
+  season: string,
+  heelSize: string,
+  price: number,
+  oldPrice: number,
+  sizes: Size[]
+}

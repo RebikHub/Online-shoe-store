@@ -1,3 +1,4 @@
+import { AppDispatch } from ".";
 import { postCartFailure, postCartRequest, postCartSuccess } from "./cartSlice";
 import {
   currentCategoriesId,
@@ -21,7 +22,7 @@ import {
 } from "./topSalesSlice";
 
 export function getTopSales() {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(fetchTopSalesRequest());
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_TOP);
@@ -33,14 +34,13 @@ export function getTopSales() {
 
       dispatch(fetchTopSalesSuccess(data));
     } catch (error) {
-      console.log(error.message);
       dispatch(fetchTopSalesFailure('Что то пошло не так!'));
     };
   };
 };
 
 export function getCategories() {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(fetchCategoriesRequest());
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_CATEGORIES);
@@ -57,7 +57,7 @@ export function getCategories() {
 };
 
 export function getItems(id) {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
     let url = '';
     if (id) {
@@ -82,7 +82,7 @@ export function getItems(id) {
 };
 
 export function getItemsMore(id, offset, text) {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
 
     let url = '';
@@ -113,7 +113,7 @@ export function getItemsMore(id, offset, text) {
 };
 
 export function getSearch(text) {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
 
     dispatch(fetchItemsRequest());
     let url = `?q=${text}`;
@@ -138,7 +138,7 @@ export function getSearch(text) {
 };
 
 export function getOrderItem(id) {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
     try {
       const response = await fetch(`${process.env.REACT_APP_URL_API_ITEMS}/${id}`);
@@ -155,7 +155,7 @@ export function getOrderItem(id) {
 };
 
 export function postOrder(item) {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch(postCartRequest());
     try {
       const response = await fetch(process.env.REACT_APP_URL_API_ORDER, {

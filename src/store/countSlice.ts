@@ -1,27 +1,32 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type State = {
+  count: number;
+};
+
+const initialState: State = {
+  count: 0
+}
 
 export const countSlice = createSlice({
   name: 'countSlice',
-  initialState: {
-    count: 0
-  },
+  initialState,
   reducers: {
-    increment: (state, action) => {
+    increment: (state) => {
       if (state.count >= 0 && state.count < 10) {
         state.count = state.count + 1;
       } else {
         state.count = 0;
       }
     },
-    decrement: (state, action) => {
+    decrement: (state) => {
       if (state.count > 0 && state.count <= 10) {
         state.count = state.count - 1;
       } else {
         state.count = 0;
       }
     },
-    clearCount: (state, action) => {
+    clearCount: (state) => {
       state.count = 0;
     }
   }

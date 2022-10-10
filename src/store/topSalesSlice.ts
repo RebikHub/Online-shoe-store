@@ -1,29 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ITopSales, Products } from "../interfaces";
 
-type State = {
-  topSales: [],
-  loading: boolean,
-  error: null | string
+const initialState: ITopSales = {
+  topSales: null,
+  loading: false,
+  error: null
 }
 
 export const topSalesSlice = createSlice({
   name: 'topSalesSlice',
-  initialState: {
-    topSales: [],
-    loading: false,
-    error: null
-  },
+  initialState,
   reducers: {
-    fetchTopSalesRequest: (state, action) => {
+    fetchTopSalesRequest: (state) => {
       state.loading = true;
       state.error = null;
     },
-    fetchTopSalesSuccess: (state, action) => {
+    fetchTopSalesSuccess: (state, action: PayloadAction<Products[]>) => {
       state.loading = false;
       state.error = null;
       state.topSales = action.payload;
     },
-    fetchTopSalesFailure: (state, action) => {
+    fetchTopSalesFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     }

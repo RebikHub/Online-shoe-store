@@ -1,50 +1,61 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IItems, Products } from "../interfaces";
 
+const initialState: IItems = {
+  items: null,
+  item: null,
+  loading: false,
+  error: null,
+  empty: false,
+  searchResponse: false
+}
 
 export const itemsSlice = createSlice({
   name: 'itemsSlice',
-  initialState: {
-    items: [],
-    item: [],
-    loading: false,
-    error: null,
-    empty: false,
-    searchResponse: false
-  },
+  initialState,
   reducers: {
-    fetchItemsRequest: (state, action) => {
+    fetchItemsRequest: (state) => {
       state.loading = true;
       state.error = null;
       state.empty = false;
       state.searchResponse = false;
     },
-    fetchItemsSuccess: (state, action) => {
+    fetchItemsSuccess: (state, action: PayloadAction<[]>) => {
       state.loading = false;
       state.error = null;
       state.items = action.payload;
     },
-    fetchItemsFailure: (state, action) => {
+    fetchItemsFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;
       state.error = action.payload;
     },
-    fetchItemsMoreSuccess: (state, action) => {
+    fetchItemsMoreSuccess: (state, action: PayloadAction<Products[]>) => {
       state.loading = false;
       state.error = null;
-      const res = [];
-      action.payload.map((e) => !state.items.some((el) => e.id === el.id) ? res.push(e) : e);
-      state.items = [...state.items, ...res];
+      if (state.items) {
+        const res: Products[] = [];
+        action.payload.map((e) => {
+          if (state.items) {
+            if (!state.items.some((el) => e.id === el.id)) {
+              return res.push(e)
+            }
+          }
+          return e
+        });
+        state.items = [...state.items, ...res];
+      };
     },
     fetchItemsMoreEmpty: (state, action) => {
       state.loading = false;
       state.error = null;
       state.empty = true;
     },
-    fetchItemSuccess: (state, action) => {
+    fetchItemSuccess: (state, action: PayloadAction<[]>) => {
       state.loading = false;
       state.error = null;
       state.item = action.payload;
     },
-    responseSearch: (state, action) => {
+    responseSearch: (state) => {
       state.searchResponse = true;
       state.loading = false;
     },

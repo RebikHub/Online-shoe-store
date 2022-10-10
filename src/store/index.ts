@@ -16,4 +16,7 @@ export const store = configureStore({
     countSlice,
     cartSlice
   }
-})
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
