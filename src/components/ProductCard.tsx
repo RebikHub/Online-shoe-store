@@ -29,7 +29,7 @@ export default function ProductCard({item}: Props) {
     <div className="col-4">
       <div className="card catalog-item-card">
         <div className='card-block'>
-          <img src={image === null ? item.images[0] : image}
+          <img src={image === '' ? item.images[0] : image}
             className="card-img-top img-fluid" alt={item.title}/>
         </div>
         <div className="card-body">

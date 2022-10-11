@@ -38,7 +38,7 @@ export default function Catalog({children}: Props): ReactElement {
     };
   };
 
-  function getCategory(ev: SyntheticEvent, id: number) {
+  function getCategory(ev: SyntheticEvent, id: number | null = null) {
     ev.preventDefault();
     dispatch(getItems(id));
   };
@@ -56,7 +56,7 @@ export default function Catalog({children}: Props): ReactElement {
 
         <ul className="catalog-categories nav justify-content-center">
           <li className="nav-item">
-            <a className={`nav-link ${cat.id === null ? 'active' : ''}`} href="#">Все</a>
+            <a className={`nav-link ${cat.id === null ? 'active' : ''}`} href="#" onClick={getCategory}>Все</a>
           </li>
           {cat.categories && cat.categories.map((el) => (
             <li className="nav-item" key={el.id}>
