@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { ReactElement, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import getArrayFromStorage from '../arrayFromStorage';
+import { TOrder } from '../interfaces';
 import { updateCart } from '../store/cartSlice';
 import { clearCount, decrement, increment } from '../store/countSlice';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getOrderItem } from '../store/middleware';
 import ErrorResponse from './ErrorResponse';
 import Preloader from './Preloader';
 
-export default function Order() {
-  const { item, loading, error } = useSelector((state) => state.itemsSlice);
-  const { count } = useSelector((state) => state.countSlice);
-  const [select, setSelect] = useState(null);
-  const dispatch = useDispatch();
+export default function Order(): ReactElement {
+  const { item, loading, error } = useAppSelector((state) => state.itemsSlice);
+  const { count } = useAppSelector((state) => state.countSlice);
+  const [select, setSelect] = useState<null | string>(null);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const params = useParams();
 
-  function checkSelected(size) {
+  function checkSelected(size: string) {
     if (select === size) {
       setSelect(null);
     } else {
@@ -25,29 +26,29 @@ export default function Order() {
   };
 
   function toCartMarket() {
-    let itemStorage = null;
+    let itemStorage: TOrder | null = null;
     for (let i = 0; i < localStorage.length; i += 1) {
       const id = localStorage.key(i);
-      if (Number(id) === item.id) {
-        itemStorage = JSON.parse(localStorage.getItem(id));
+      if (id && Number(id) === item?.id) {
+        itemStorage = JSON.parse(localStorage.getItem(id) || '');
       };
     };
 
     if (itemStorage === null) {
-      localStorage.setItem(item.id, JSON.stringify({
-        id: item.id,
-        title: item.title,
+      localStorage.setItem(`${item?.id}`, JSON.stringify({
+        id: item?.id,
+        title: item?.title,
         size: select,
         count: count,
-        price: item.price
+        price: item?.price
       }));
     } else {
-      localStorage.setItem(item.id, JSON.stringify({
-        id: item.id,
-        title: item.title,
+      localStorage.setItem(`${item?.id}`, JSON.stringify({
+        id: item?.id,
+        title: item?.title,
         size: select,
         count: itemStorage.count + count,
-        price: item.price
+        price: item?.price
       }));
     };
     const local = getArrayFromStorage();
@@ -66,47 +67,47 @@ export default function Order() {
 
   return (
     <section className="catalog-item">
-      <h2 className="text-center">{item.title}</h2>
+      <h2 className="text-center">{item?.title}</h2>
       <div className="row">
         <div className="col-5">
-          <img src={item.images ? item.images[0] : null} className="img-fluid" alt={item.title} />
+          <img src={item?.images ? item?.images[0] : ''} className="img-fluid" alt={item?.title} />
         </div>
         <div className="col-7">
           <table className="table table-bordered">
             <tbody>
               <tr>
                 <td>Артикул</td>
-                <td>{item.sku}</td>
+                <td>{item?.sku}</td>
               </tr>
               <tr>
                 <td>Производитель</td>
-                <td>{item.manufacturer}</td>
+                <td>{item?.manufacturer}</td>
               </tr>
               <tr>
                 <td>Цвет</td>
-                <td>{item.color}</td>
+                <td>{item?.color}</td>
               </tr>
               <tr>
                 <td>Материалы</td>
-                <td>{item.material}</td>
+                <td>{item?.material}</td>
               </tr>
               <tr>
                 <td>Сезон</td>
-                <td>{item.season}</td>
+                <td>{item?.season}</td>
               </tr>
               <tr>
                 <td>Повод</td>
-                <td>{item.reason}</td>
+                <td>{item?.reason}</td>
               </tr>
             </tbody>
           </table>
           <div className="text-center">
             <p>Размеры в наличии:
-              {item.sizes.map((el,i) => el.avalible ?
+              {item?.sizes.map((el,i) => el.avalible ?
                 <span className={`catalog-item-size ${select === el.size ? 'selected' : ''}`}
                   onClick={() => checkSelected(el.size)} key={i}>{el.size}</span> : null)}
             </p>
-            {item.sizes.some((el) => el.avalible === true) ?
+            {item?.sizes.some((el) => el.avalible === true) ?
             <p>Количество:
             <span className="btn-group btn-group-sm pl-2">
               <button className="btn btn-secondary" onClick={() => dispatch(decrement())}>-</button>
@@ -115,7 +116,7 @@ export default function Order() {
             </span>
             </p>: null}
           </div>
-            {item.sizes.some((el) => el.avalible === true) && select !== null && count !== 0 ?
+            {item?.sizes.some((el) => el.avalible === true) && select !== null && count !== 0 ?
               <button className="btn btn-danger btn-block btn-lg"
                 onClick={toCartMarket}>В корзину</button> : null}
         </div>

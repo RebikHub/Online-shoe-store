@@ -11,7 +11,7 @@ import ProductCard from "./ProductCard";
 import ResponseSearch from "./ResponseSearch";
 
 type Props = {
-  children: ReactNode
+  children: ReactNode | null
 };
 
 export default function Catalog({children}: Props): ReactElement {

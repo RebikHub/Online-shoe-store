@@ -4,7 +4,7 @@ export interface IStatus {
 };
 
 export interface ICart extends IStatus { // cartslice
-  orders: Order[] | null;
+  orders: TOrder[] | null;
   status: boolean;
 };
 
@@ -15,7 +15,7 @@ export interface ICategories extends IStatus { // categoriesslice
 
 export interface IItems extends IStatus { // Itemsslice
   items: Products[] | null;
-  item: Products[] | null;
+  item: Products | null;
   empty: boolean;
   searchResponse: boolean;
 };
@@ -56,7 +56,7 @@ export type OrderInput = {
   address: string
 }
 
-export type Order = {
+export type TOrder = {
   count: number,
   id: number,
   price: number,
@@ -66,5 +66,5 @@ export type Order = {
 
 export type PostOrderItem = {
   owner: OrderInput,
-  items: Order[]
+  items: TOrder[]
 }

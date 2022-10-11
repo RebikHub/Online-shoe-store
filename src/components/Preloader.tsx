@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-export default function Preloader() {
+export default function Preloader(): ReactElement {
   return (
     <div className="preloader">
       <span></span>

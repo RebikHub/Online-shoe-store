@@ -1,10 +1,10 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { clearCart } from '../store/cartSlice';
+import { useAppDispatch } from '../store/hooks';
 
-export default function StatusOrder() {
-  const dispatch = useDispatch();
+export default function StatusOrder(): ReactElement {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   function orderComplete() {

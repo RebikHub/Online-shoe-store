@@ -8,7 +8,7 @@ export default function HeaderCart(): ReactElement {
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (orders) {
+    if (orders && orders.length > 0) {
       setAmount(orders.length);
     } else {
       setAmount(null);

@@ -17,7 +17,7 @@ export default function App() {
         <Route index element={
           <>
             <TopSales/>
-            <Catalog/>
+            <Catalog children={null}/>
           </>
         }/>
         <Route path="/catalog" element={

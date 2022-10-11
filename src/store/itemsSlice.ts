@@ -50,7 +50,7 @@ export const itemsSlice = createSlice({
       state.error = null;
       state.empty = true;
     },
-    fetchItemSuccess: (state, action: PayloadAction<[]>) => {
+    fetchItemSuccess: (state, action: PayloadAction<Products>) => {
       state.loading = false;
       state.error = null;
       state.item = action.payload;

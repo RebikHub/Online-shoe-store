@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Products } from '../interfaces';
+import { useAppDispatch } from '../store/hooks';
 import { getOrderItem } from '../store/middleware';
 
-export default function ProductCard({item}) {
-  const dispatch = useDispatch();
-  const [image, setImage] = useState(null);
+type Props = {
+  item: Products
+};
+
+export default function ProductCard({item}: Props) {
+  const dispatch = useAppDispatch();
+  const [image, setImage] = useState<string>('');
 
   useEffect(() => {
     item.images.map((el) => {
@@ -15,7 +20,7 @@ export default function ProductCard({item}) {
         if (img.height > 400) {
           return setImage(el);
         };
-        return setImage(null);
+        return setImage('');
       };
     });
   }, [item.images]);

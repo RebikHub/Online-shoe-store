@@ -137,7 +137,7 @@ export function getSearch(text: string) {
   };
 };
 
-export function getOrderItem(id: number) {
+export function getOrderItem(id: string | undefined | number) {
   return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
     try {

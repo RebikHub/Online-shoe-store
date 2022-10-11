@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import { TOrder } from '../interfaces';
 import { removeItem } from '../store/cartSlice';
 import { useAppDispatch } from '../store/hooks';
 import { getOrderItem } from '../store/middleware';
 
-export default function TableCart({item, i}) {
+type Props = {
+  i: number,
+  item: TOrder
+};
+
+export default function TableCart({item, i}: Props): ReactElement {
   const dispatch = useAppDispatch();
 
-  function removeOrder(id) {
-    localStorage.removeItem(id);
+  function removeOrder(id: number) {
+    localStorage.removeItem(`${id}`);
     dispatch(removeItem(id));
   };
 
