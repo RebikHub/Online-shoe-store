@@ -1,4 +1,4 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/yccry9bh49t4r311/branch/master?svg=true)](https://ci.appveyor.com/project/RebikHub/ra-diplom/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/bx4koouh10d1umgs/branch/master?svg=true)](https://ci.appveyor.com/project/RebikHub/online-shoe-store/branch/master)
 
 [Link to project](https://rebikhub.github.io/Online-shoe-store/)
 
