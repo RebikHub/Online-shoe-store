@@ -67,15 +67,14 @@ export default function Checkout(): ReactElement {
           <div className="form-group">
             <label htmlFor="address">Адрес доставки</label>
             <input className="form-control" id="address" placeholder="Адрес доставки"
-            value={input.address}
-            onChange={(ev: ChangeEvent<HTMLInputElement>) => setInput((prev) => ({...prev, address: ev.target.value}))}/>
+              value={input.address}
+              onChange={(ev: ChangeEvent<HTMLInputElement>) => setInput((prev) => ({...prev, address: ev.target.value}))}/>
           </div>
           <div className="form-group form-check">
             <input type="checkbox" className="form-check-input" id="agreement"/>
             <label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
           </div>
-          <button type="submit" className="btn btn-outline-secondary"
-          onClick={submit}>Оформить</button>
+          <button type="submit" className="btn btn-outline-secondary" onClick={submit}>Оформить</button>
         </form>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Outlet } from 'react-router-dom';
-import Footer from './Footer';
-import Header from './Header';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 export default function HeaderAndFooter(): ReactElement {
   const banner = require('../img/banner.jpg');

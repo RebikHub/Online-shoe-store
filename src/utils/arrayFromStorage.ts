@@ -1,4 +1,4 @@
-import { TOrder } from "./interfaces";
+import { TOrder } from "../interfaces";
 
 export default function getArrayFromStorage(): TOrder[] {
   if (localStorage.length !== 0) {

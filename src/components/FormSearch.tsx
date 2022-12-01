@@ -27,11 +27,10 @@ export default function FormSearch({classStyle}: Props): ReactElement {
   };
 
   return (
-    <form className={`${classStyle ? classStyle : 'catalog-search-form'} form-inline`}
-      onSubmit={submit}>
+    <form className={`${classStyle ? classStyle : 'catalog-search-form'} form-inline`} onSubmit={submit}>
       <input className="form-control" placeholder="Поиск"
-      value={search}
-      onChange={(ev: ChangeEvent<HTMLInputElement>) => dispatch(changeSearch(ev.target.value))}/>
+        value={search}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) => dispatch(changeSearch(ev.target.value))}/>
     </form>
   );
 };

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { ReactElement } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import getArrayFromStorage from '../arrayFromStorage';
+import getArrayFromStorage from '../utils/arrayFromStorage';
 import { updateCart } from '../store/cartSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { clearSearch } from '../store/searchSlice';

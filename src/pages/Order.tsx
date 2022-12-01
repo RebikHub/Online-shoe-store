@@ -1,13 +1,13 @@
 import React, { ReactElement, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import getArrayFromStorage from '../arrayFromStorage';
+import getArrayFromStorage from '../utils/arrayFromStorage';
 import { TOrder } from '../interfaces';
 import { updateCart } from '../store/cartSlice';
 import { clearCount, decrement, increment } from '../store/countSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getOrderItem } from '../store/middleware';
-import ErrorResponse from './ErrorResponse';
-import Preloader from './Preloader';
+import ErrorResponse from '../components/ErrorResponse';
+import Preloader from '../components/Preloader';
 
 export default function Order(): ReactElement {
   const { item, loading, error } = useAppSelector((state) => state.itemsSlice);

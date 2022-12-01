@@ -1,16 +1,16 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import getArrayFromStorage from "../arrayFromStorage";
+import getArrayFromStorage from "../utils/arrayFromStorage";
 import { TOrder } from "../interfaces";
 import { useAppSelector } from "../store/hooks";
-import Checkout from "./Checkout";
-import TableCart from "./TableCart";
+import Checkout from "../components/Checkout";
+import TableCart from "../components/TableCart";
 
 export default function Cart(): ReactElement {
   const [order, setOrder] = useState<TOrder[]>([]);
   const { orders } = useAppSelector((state) => state.cartSlice);
 
   useEffect(() => {
-    const local =  getArrayFromStorage();
+    const local = getArrayFromStorage();
     setOrder(local);
   }, [orders]);
 

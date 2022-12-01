@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import About from "./components/About";
-import Cart from "./components/Cart";
-import Catalog from "./components/Catalog";
-import Contacts from "./components/Contacts";
-import ErrorPage from "./components/ErrorPage";
+import About from "./pages/About";
+import Cart from "./pages/Cart";
+import Catalog from "./pages/Catalog";
+import Contacts from "./pages/Contacts";
+import Order from "./pages/Order";
+import ErrorPage from "./pages/ErrorPage";
 import FormSearch from "./components/FormSearch";
-import HeaderAndFooter from "./components/HeaderAndFooter";
-import Order from "./components/Order";
+import HeaderAndFooter from "./pages/HeaderAndFooter";
 import TopSales from "./components/TopSales";
 
 export default function App() {

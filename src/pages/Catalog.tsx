@@ -1,14 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactElement, SyntheticEvent, useEffect } from "react";
 import { ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { getCategories, getItems, getItemsMore, getSearch } from "../store/middleware";
 import { clearSearch } from "../store/searchSlice";
-import ErrorResponse from "./ErrorResponse";
-import Preloader from "./Preloader";
-import ProductCard from "./ProductCard";
-import ResponseSearch from "./ResponseSearch";
+import ErrorResponse from "../components/ErrorResponse";
+import Preloader from "../components/Preloader";
+import ProductCard from "../components/ProductCard";
+import ResponseSearch from "../components/ResponseSearch";
 
 type Props = {
   children: ReactNode | null
