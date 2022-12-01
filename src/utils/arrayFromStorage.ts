@@ -1,12 +1,16 @@
 import { TOrder } from "../interfaces";
 
 export default function getArrayFromStorage(): TOrder[] {
-  if (localStorage.length !== 0) {
+
+  if (sessionStorage.length !== 0) {
     const local = [];
-    for (let i = 0; i < localStorage.length; i += 1) {
-      const id = localStorage.key(i);
+    
+    
+    for (let i = 0; i < sessionStorage.length; i += 1) {
+      const id = sessionStorage.key(i);
+      console.log(sessionStorage.key(i));
       if (id) {
-        local.push(JSON.parse(localStorage.getItem(id) || ''));
+        local.push(JSON.parse(sessionStorage.getItem(id) || ''));
       }
     }
     return local;

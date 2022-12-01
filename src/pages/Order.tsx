@@ -27,15 +27,15 @@ export default function Order(): ReactElement {
 
   function toCartMarket() {
     let itemStorage: TOrder | null = null;
-    for (let i = 0; i < localStorage.length; i += 1) {
-      const id = localStorage.key(i);
+    for (let i = 0; i < sessionStorage.length; i += 1) {
+      const id = sessionStorage.key(i);
       if (id && Number(id) === item?.id) {
-        itemStorage = JSON.parse(localStorage.getItem(id) || '');
+        itemStorage = JSON.parse(sessionStorage.getItem(id) || '');
       };
     };
 
     if (itemStorage === null) {
-      localStorage.setItem(`${item?.id}`, JSON.stringify({
+      sessionStorage.setItem(`${item?.id}`, JSON.stringify({
         id: item?.id,
         title: item?.title,
         size: select,
@@ -43,7 +43,7 @@ export default function Order(): ReactElement {
         price: item?.price
       }));
     } else {
-      localStorage.setItem(`${item?.id}`, JSON.stringify({
+      sessionStorage.setItem(`${item?.id}`, JSON.stringify({
         id: item?.id,
         title: item?.title,
         size: select,

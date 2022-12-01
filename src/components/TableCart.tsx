@@ -14,7 +14,7 @@ export default function TableCart({item, i}: Props): ReactElement {
   const dispatch = useAppDispatch();
 
   function removeOrder(id: number) {
-    localStorage.removeItem(`${id}`);
+    sessionStorage.removeItem(`${id}`);
     dispatch(removeItem(id));
   };
 

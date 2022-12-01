@@ -34,9 +34,11 @@ export default function Checkout(): ReactElement {
   }
 
   useEffect(() => {
+    let timer;
     if (errorOrder) {
-      setTimeout(() => setErrorOrder(false), 3 * 1000);
+      timer = setTimeout(() => setErrorOrder(false), 3 * 1000);
     }
+    return clearTimeout(timer);
   }, [errorOrder])
 
   if (error || errorOrder) {

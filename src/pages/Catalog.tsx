@@ -77,11 +77,7 @@ export default function Catalog({children}: Props): ReactElement {
 
         {empty ? null : <div className="text-center">
           <button className="btn btn-outline-primary"
-            onClick={() => {
-              if (cat.id && items) {
-                dispatch(getItemsMore(cat.id, items.length))
-              }
-              }}>Загрузить ещё</button>
+            onClick={() => items && dispatch(getItemsMore(cat.id, items.length))}>Загрузить ещё</button>
         </div>}
 
       </div>}

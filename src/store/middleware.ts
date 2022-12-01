@@ -81,7 +81,7 @@ export function getItems(id: number | null) {
   };
 };
 
-export function getItemsMore(id: number, offset: number) {
+export function getItemsMore(id: number | null, offset: number) {
   return async (dispatch: AppDispatch) => {
     dispatch(fetchItemsRequest());
 
