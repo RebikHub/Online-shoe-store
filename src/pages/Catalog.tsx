@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { ReactElement, SyntheticEvent, useEffect } from "react";
 import { ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
