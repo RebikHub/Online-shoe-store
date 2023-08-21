@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactElement } from "react";
 
 export default function Contacts(): ReactElement {
@@ -12,4 +11,4 @@ export default function Contacts(): ReactElement {
       <p>Email: <a href="mailto:office@bosanoga.ru">office@bosanoga.ru</a></p>
     </section>
   );
-};
+}

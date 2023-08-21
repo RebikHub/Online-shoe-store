@@ -2,15 +2,17 @@ import { EndpointApi } from "../types/enum";
 import { PostOrderItem } from "../types/interfaces";
 import { BaseApiType } from "../types/types";
 
-async function baseApi(apiConfig: BaseApiType) {
-  try {
-    const response = apiConfig.options ? await fetch(process.env.REACT_APP_URL + apiConfig.url, apiConfig.options) : await fetch(process.env.REACT_APP_URL + apiConfig.url);
-    if (!response.ok) {
-      throw new Error('Something bad happened');
-    }
-    const data = await response.json();
 
-    return data;
+async function baseApi(apiConfig: BaseApiType) {
+  const url = process.env.BASE_API_URL + apiConfig.url
+  try {
+    const response = apiConfig.options ? await fetch(url, apiConfig.options) : await fetch(url);
+
+    if (!response.ok) {
+      throw new Error('Что то пошло не так!');
+    }
+
+    return await response.json();
   } catch (e) {
     console.error('Что то пошло не так!');
   }

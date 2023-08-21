@@ -1,24 +1,34 @@
 import { ReactElement, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getTopSales } from '../store/middleware';
 import ErrorResponse from './ErrorResponse';
 import Preloader from './Preloader';
-import ProductCard from './ProductCard';
+// import ProductCard from './ProductCard';
+import {
+  // QueryClient,
+  useQuery,
+} from '@tanstack/react-query'
+import { QueryKeys } from '../types/keys';
+import { getTopSales } from '../api/httpServices';
 
 export default function TopSales(): ReactElement {
-  const { topSales, loading, error } = useAppSelector((state) => state.topSalesSlice);
-  const dispatch = useAppDispatch();
+  const { isLoading, error, data } = useQuery({
+    queryKey: [QueryKeys.GetTopSales],
+    queryFn: () => getTopSales(),
+  })
 
   useEffect(() => {
-    dispatch(getTopSales());
-  }, [dispatch]);
+    console.log('getTopSales-data: ', data);
+    console.log('getTopSales-error: ', error);
+    console.log('getTopSales-loading: ', isLoading);
+  }, [isLoading, error, data])
+
 
   return (
     <section className="top-sales">
       <h2 className="text-center">Хиты продаж!</h2>
-      {error ? <ErrorResponse error={error} handleError={() => dispatch(getTopSales())} /> :
+      {error ? <ErrorResponse error={'error'} /> :
         <div className="row">
-          {loading ? <Preloader /> : topSales && topSales.map((el) => <ProductCard item={el} key={el.id} />)}
+          {isLoading && <Preloader />}
+          {/* {isLoading ? <Preloader /> : data && data.map((el: any) => <ProductCard item={el} key={el.id} />)} */}
         </div>}
     </section>
   );

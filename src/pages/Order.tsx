@@ -1,11 +1,7 @@
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import getArrayFromStorage from '../utils/arrayFromStorage';
 import { TOrder } from '../types/interfaces';
-import { updateCart } from '../store/cartSlice';
-import { clearCount, decrement, increment } from '../store/countSlice';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getOrderItem } from '../store/middleware';
 import ErrorResponse from '../components/ErrorResponse';
 import Preloader from '../components/Preloader';
 
@@ -22,17 +18,18 @@ export default function Order(): ReactElement {
       setSelect(null);
     } else {
       setSelect(size);
-    };
-  };
+    }
+  }
 
   function toCartMarket() {
     let itemStorage: TOrder | null = null;
+
     for (let i = 0; i < sessionStorage.length; i += 1) {
       const id = sessionStorage.key(i);
       if (id && Number(id) === item?.id) {
         itemStorage = JSON.parse(sessionStorage.getItem(id) || '');
-      };
-    };
+      }
+    }
 
     if (itemStorage === null) {
       sessionStorage.setItem(`${item?.id}`, JSON.stringify({
@@ -50,20 +47,21 @@ export default function Order(): ReactElement {
         count: itemStorage.count + count,
         price: item?.price
       }));
-    };
+    }
+
     const local = getArrayFromStorage();
-    dispatch(updateCart(local));
-    dispatch(clearCount());
+    // dispatch(updateCart(local));
+    // dispatch(clearCount());
     navigate('/cart');
-  };
+  }
 
-  if (error) {
-    return <ErrorResponse error={error} handleError={() => params.id && dispatch(getOrderItem(+params.id))} />
-  };
+  // if (error) {
+  //   return <ErrorResponse error={error} handleError={() => params.id && dispatch(getOrderItem(+params.id))} />
+  // }
 
-  if (loading) {
-    return <Preloader />
-  };
+  // if (loading) {
+  //   return <Preloader />
+  // }
 
   return (
     <section className="catalog-item">

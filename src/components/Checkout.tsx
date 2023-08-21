@@ -1,29 +1,48 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { ReactElement } from 'react';
 import { useEffect } from 'react';
 import { OrderInput } from '../types/interfaces';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { postOrder } from '../store/middleware';
-import ErrorResponse from './ErrorResponse';
-import Preloader from './Preloader';
-import StatusOrder from './StatusOrder';
-
+// import ErrorResponse from './ErrorResponse';
+// import Preloader from './Preloader';
+// import StatusOrder from './StatusOrder';
+import { postOrder } from '../api/httpServices';
+import {
+  useMutation
+} from '@tanstack/react-query'
 
 export default function Checkout(): ReactElement {
-  const { orders, loading, status, error } = useAppSelector((state) => state.cartSlice);
+  // const { orders, loading, status, error } = useAppSelector((state) => state.cartSlice);
   const [input, setInput] = useState<OrderInput>({
     phone: '',
     address: ''
   });
   const [errorOrder, setErrorOrder] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+  const orders = {
+    count: 0,
+    id: 0,
+    price: 0,
+    size: 'string',
+    title: 'string'
+  } // mock data
+  const postOrderMut = useMutation(postOrder)
 
   function submit() {
     if (input.address !== '' && input.phone !== '' && orders) {
-      dispatch(postOrder({
-        owner: input,
-        items: orders
-      }));
+      postOrderMut.mutate(
+        {
+          owner: input,
+          items: [orders]
+        },
+        {
+          onError: (e) => {
+            console.error(e)
+          },
+          onSuccess: (data) => {
+            console.log('postOrder-data: ', data)
+          }
+        }
+      )
       setInput({
         phone: '',
         address: ''
@@ -41,19 +60,19 @@ export default function Checkout(): ReactElement {
     return () => clearTimeout(timer);
   }, [errorOrder])
 
-  if (error || errorOrder) {
-    return <ErrorResponse
-      error={error ? error : orders === null ? 'Добавьте товар в карзину!' : 'Заполните все поля!'}
-      handleError={submit} />
-  };
+  // if (error || errorOrder) {
+  //   return <ErrorResponse
+  //     error={error ? error : orders === null ? 'Добавьте товар в карзину!' : 'Заполните все поля!'}
+  //     handleError={submit} />
+  // }
 
-  if (status) {
-    return <StatusOrder />
-  };
+  // if (status) {
+  //   return <StatusOrder />
+  // }
 
-  if (loading) {
-    return <Preloader />
-  };
+  // if (loading) {
+  //   return <Preloader />
+  // }
 
   return (
     <section className="order">
@@ -81,4 +100,4 @@ export default function Checkout(): ReactElement {
       </div>
     </section>
   );
-};
+}

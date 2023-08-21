@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { clearCart } from '../store/cartSlice';
+import { clearCart } from '../store/orders';
 import { useAppDispatch } from '../store/hooks';
 
 export default function StatusOrder(): ReactElement {

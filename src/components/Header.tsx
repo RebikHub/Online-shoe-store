@@ -2,29 +2,25 @@ import { useEffect, useState } from 'react';
 import headerLogo from '../img/header-logo.png';
 import { ReactElement } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import getArrayFromStorage from '../utils/arrayFromStorage';
-import { updateCart } from '../store/cartSlice';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { clearSearch } from '../store/searchSlice';
+// import getArrayFromStorage from '../utils/arrayFromStorage';
 import FormSearch from './FormSearch';
 import HeaderCart from './HeaderCart';
 
 export default function Header(): ReactElement {
-  const { search } = useAppSelector((state) => state.searchSlice);
   const [inputForm, setInputForm] = useState<string>('invisible');
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const location = useLocation();
+  const search = ''
 
   useEffect(() => {
-    const local = getArrayFromStorage();
-    dispatch(updateCart(local));
+    // const local = getArrayFromStorage();
+    // dispatch(updateCart(local));
     if (location.pathname !== '/catalog' && search !== '') {
-      dispatch(clearSearch());
+      // dispatch(clearSearch());
     } else if (location.pathname === '/catalog') {
       setInputForm('invisible');
     }
-  }, [dispatch, location.pathname, search]);
+  }, []);
 
   function toggleSearch() {
     if (inputForm === 'invisible' && location.pathname !== '/catalog') {

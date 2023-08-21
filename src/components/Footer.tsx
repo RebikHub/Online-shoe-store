@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -36,7 +35,7 @@ export default function Footer(): ReactElement {
           </section>
           <section>
             <div className="footer-copyright">2009-2019 © BosaNoga.ru — модный интернет-магазин обуви и аксессуаров.
-              Все права защищены.<br/>Доставка по всей России!
+              Все права защищены.<br />Доставка по всей России!
             </div>
           </section>
         </div>
@@ -55,4 +54,4 @@ export default function Footer(): ReactElement {
       </div>
     </footer>
   );
-};
+}

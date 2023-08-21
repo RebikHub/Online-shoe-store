@@ -1,58 +1,41 @@
-import React, { ReactElement, SyntheticEvent, useCallback, useEffect } from "react";
+import { ReactElement, SyntheticEvent } from "react";
 import { ReactNode } from "react";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  getCategories,
-  getItems,
-  getItemsMore,
-  getSearch
-} from "../../store/middleware";
 import ErrorResponse from "../../components/ErrorResponse";
 import Preloader from "../../components/Preloader";
 import ProductCard from "../../components/ProductCard";
 import ResponseSearch from "../../components/ResponseSearch";
-import { currentCategoriesId } from "../../store/categoriesSlice";
-import { clearSearch } from "../../store/searchSlice";
+import {
+  useQuery,
+} from '@tanstack/react-query'
 import css from './Catalog.module.css';
+import { getCategories, getItems, getSearch } from "../../api/httpServices";
+import { QueryKeys } from "../../types/keys";
 
 type Props = {
   children: ReactNode | null;
 };
 
 export default function Catalog({ children }: Props): ReactElement {
-  const cat = useAppSelector((state) => state.categoriesSlice);
-  const {
-    loading: itemsLoading,
-    items,
-    empty,
-    error: itemsError,
-    searchResponse
-  } = useAppSelector((state) => state.itemsSlice);
-  const { search } = useAppSelector((state) => state.searchSlice);
-  const dispatch = useAppDispatch();
 
-  const getCategoriesAndItems = useCallback(() => {
-    if (cat) {
-      dispatch(getCategories());
-    }
+  const { isLoading, error, data } = useQuery({
+    queryKey: [QueryKeys.GetCategories],
+    queryFn: () => getCategories(),
+  })
 
-    if (search === "") {
-      dispatch(currentCategoriesId(null));
-    } else {
-      dispatch(getSearch(search));
-      dispatch(clearSearch());
-    }
-  }, [cat, search, dispatch]);
 
-  useEffect(() => {
-    getCategoriesAndItems();
-  }, []);
+  // getSearch(search)
+
+  const handleUpdateRequest = () => {
+    console.log('handleUpdateRequest');
+
+  }
+
 
   const handleCategoryClick = (ev: SyntheticEvent, id?: number) => {
     ev.preventDefault();
     if (id) {
-      dispatch(currentCategoriesId(id));
-      dispatch(getItems(id));
+      // currentCategoriesId(id)
+      getItems(id)
     }
   };
 
@@ -60,10 +43,10 @@ export default function Catalog({ children }: Props): ReactElement {
     <section className="catalog">
       <h2 className="text-center">Каталог</h2>
       {children}
-      {cat.loading && itemsLoading ? (
+      {/* {cat.loading && itemsLoading ? (
         <Preloader />
       ) : cat.error && itemsError ? (
-        <ErrorResponse error={cat.error} handleError={getCategoriesAndItems} />
+        <ErrorResponse error={cat.error} handleError={handleUpdateRequest} />
       ) : (
         <div>
           {cat.loading ? (
@@ -96,9 +79,9 @@ export default function Catalog({ children }: Props): ReactElement {
               error={cat.error}
               handleError={() => dispatch(getCategories())}
             />
-          )}
+          )} */}
 
-          {itemsError === null ? (
+      {/* {itemsError === null ? (
             <div className="row">
               {searchResponse ? (
                 <ResponseSearch />
@@ -114,9 +97,9 @@ export default function Catalog({ children }: Props): ReactElement {
               error={itemsError}
               handleError={() => dispatch(currentCategoriesId(null))}
             />
-          )}
+          )} */}
 
-          {empty ? null : (
+      {/* {empty ? null : (
             <div className="text-center">
               <button
                 className="btn btn-outline-primary"
@@ -127,9 +110,9 @@ export default function Catalog({ children }: Props): ReactElement {
                 Загрузить ещё
               </button>
             </div>
-          )}
-        </div>
-      )}
+          )} */}
+      {/* </div>
+      )} */}
     </section>
   );
 }

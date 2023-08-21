@@ -1,36 +1,56 @@
-import React, { ChangeEvent, ReactElement, SyntheticEvent } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getSearch } from '../store/middleware';
-import { changeSearch, clearSearch } from '../store/searchSlice';
+import { ChangeEvent, ReactElement, SyntheticEvent, useState } from 'react';
+// import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  useMutation,
+} from '@tanstack/react-query'
+import { getSearch } from '../api/httpServices';
 
 type Props = {
   classStyle: string | null
 }
 
-export default function FormSearch({classStyle}: Props): ReactElement {
-  const { search } = useAppSelector((state) => state.searchSlice);
-  const dispatch = useAppDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
+export default function FormSearch({ classStyle }: Props): ReactElement {
+  const [inputSearch, setInputSearch] = useState('')
+
+  const getSearchMut = useMutation(getSearch)
+  // const { search } = useAppSelector((state) => state.searchSlice);
+  // const dispatch = useAppDispatch();
+  // const location = useLocation();
+  // const navigate = useNavigate();
+
+  // function submit(ev: SyntheticEvent) {
+  //   ev.preventDefault()
+  //   if (location.pathname !== '/catalog' && search !== '') {
+  //     navigate('/catalog');
+  //     dispatch(getSearch(search));
+  //     dispatch(clearSearch());
+  //   } else {
+  //     dispatch(getSearch(search));
+  //     dispatch(clearSearch());
+  //   };
+  // };
 
   function submit(ev: SyntheticEvent) {
     ev.preventDefault()
-    if (location.pathname !== '/catalog' && search !== '') {
-      navigate('/catalog');
-      dispatch(getSearch(search));
-      dispatch(clearSearch());
-    } else {
-      dispatch(getSearch(search));
-      dispatch(clearSearch());
-    };
-  };
+    getSearchMut.mutate(inputSearch, {
+      onError: (e) => {
+        console.error(e)
+      },
+      // onSettled: () => {
+
+      // },
+      onSuccess: (data) => {
+        console.log('getSearch-Data: ', data);
+
+      },
+    })
+  }
 
   return (
     <form className={`${classStyle ? classStyle : 'catalog-search-form'} form-inline`} onSubmit={submit}>
       <input className="form-control" placeholder="Поиск"
-        value={search}
-        onChange={(ev: ChangeEvent<HTMLInputElement>) => dispatch(changeSearch(ev.target.value))}/>
+        value={inputSearch}
+        onChange={(ev: ChangeEvent<HTMLInputElement>) => setInputSearch(ev.target.value)} />
     </form>
   );
-};
+}

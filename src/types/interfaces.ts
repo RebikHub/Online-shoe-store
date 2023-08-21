@@ -1,26 +1,47 @@
-export interface IStatus {
-  loading: boolean;
-  error: null | string;
-}
+// export interface IStatus {
+//   loading: boolean;
+//   error: null | string;
+// }
 
-export interface ICart extends IStatus { // cartslice
+// export interface ICart extends IStatus { // cartslice
+//   orders: TOrder[] | null;
+//   status: boolean;
+// }
+
+// export interface ICategories extends IStatus { // categoriesslice
+//   categories: Category[] | null;
+//   id: null | number;
+// }
+
+// export interface IItems extends IStatus { // Itemsslice
+//   items: Products[] | null;
+//   item: Products | null;
+//   empty: boolean;
+//   searchResponse: boolean;
+// }
+
+// export interface ITopSales extends IStatus { // topsalesslice
+//   topSales: Products[] | null;
+// }
+
+export interface ICart { // cartslice
   orders: TOrder[] | null;
   status: boolean;
 }
 
-export interface ICategories extends IStatus { // categoriesslice
+export interface ICategories { // categoriesslice
   categories: Category[] | null;
   id: null | number;
 }
 
-export interface IItems extends IStatus { // Itemsslice
+export interface IItems { // Itemsslice
   items: Products[] | null;
   item: Products | null;
   empty: boolean;
   searchResponse: boolean;
 }
 
-export interface ITopSales extends IStatus { // topsalesslice
+export interface ITopSales { // topsalesslice
   topSales: Products[] | null;
 }
 
