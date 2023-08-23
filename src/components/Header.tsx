@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import headerLogo from '../img/header-logo.png';
+import headerLogo from '../media/img/header-logo.png';
 import { ReactElement } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 // import getArrayFromStorage from '../utils/arrayFromStorage';

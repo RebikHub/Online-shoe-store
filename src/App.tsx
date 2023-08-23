@@ -1,6 +1,5 @@
 import {
-  BrowserRouter,
-  // HashRouter 
+  BrowserRouter
 } from "react-router-dom";
 import AppRoutes from "./routes/Routes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

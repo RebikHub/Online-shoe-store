@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   BaseProduct
@@ -9,10 +8,7 @@ type Props = {
 };
 
 export default function ProductCard({ item }: Props) {
-  // const [image, setImage] = useState<string>('');
-
-  console.log('productcard: ', item.images);
-
+  // const [images, setImage] = useState<string>('');
 
   // useEffect(() => {
   //   item.images.map((el) => {
@@ -27,9 +23,10 @@ export default function ProductCard({ item }: Props) {
   //   });
   // }, [item.images]);
 
-  function handleOrderItem(id: number) {
-    console.log('productCard-itemId: ', id);
 
+  function handleOrderItem(id: number) {
+    console.log('order-item-id: ', id);
+    
   }
 
   return (

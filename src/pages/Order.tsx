@@ -4,14 +4,24 @@ import getArrayFromStorage from '../utils/arrayFromStorage';
 import { TOrder } from '../types/interfaces';
 import ErrorResponse from '../components/ErrorResponse';
 import Preloader from '../components/Preloader';
+import { useQuery } from '@tanstack/react-query';
+import { getOrderItem } from '../api/httpServices';
+import { QueryKeys } from '../types/keys';
 
 export default function Order(): ReactElement {
-  const { item, loading, error } = useAppSelector((state) => state.itemsSlice);
-  const { count } = useAppSelector((state) => state.countSlice);
+  const [count, setCount] = useState(0);
   const [select, setSelect] = useState<null | string>(null);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const params = useParams();
+  const {id} = useParams();
+
+  console.log(id);
+
+  const {data, isError, isLoading, refetch} = useQuery({
+    queryKey: [QueryKeys.GetOrderItem],
+    queryFn: () => getOrderItem(Number(id)),
+    refetchOnWindowFocus: false
+  })
+  
 
   function checkSelected(size: string) {
     if (select === size) {
@@ -26,26 +36,26 @@ export default function Order(): ReactElement {
 
     for (let i = 0; i < sessionStorage.length; i += 1) {
       const id = sessionStorage.key(i);
-      if (id && Number(id) === item?.id) {
+      if (id && Number(id) === data?.id) {
         itemStorage = JSON.parse(sessionStorage.getItem(id) || '');
       }
     }
 
     if (itemStorage === null) {
-      sessionStorage.setItem(`${item?.id}`, JSON.stringify({
-        id: item?.id,
-        title: item?.title,
+      sessionStorage.setItem(`${data?.id}`, JSON.stringify({
+        id: data.id,
+        title: data.title,
         size: select,
         count: count,
-        price: item?.price
+        price: data.price
       }));
     } else {
-      sessionStorage.setItem(`${item?.id}`, JSON.stringify({
-        id: item?.id,
-        title: item?.title,
+      sessionStorage.setItem(`${data?.id}`, JSON.stringify({
+        id: data.id,
+        title: data.title,
         size: select,
         count: itemStorage.count + count,
-        price: item?.price
+        price: data.price
       }));
     }
 
@@ -55,70 +65,75 @@ export default function Order(): ReactElement {
     navigate('/cart');
   }
 
-  // if (error) {
-  //   return <ErrorResponse error={error} handleError={() => params.id && dispatch(getOrderItem(+params.id))} />
-  // }
+  if (isError) {
+    return <ErrorResponse handleError={refetch} />
+  }
 
-  // if (loading) {
-  //   return <Preloader />
-  // }
+  if (isLoading) {
+    return <Preloader />
+  }
 
   return (
     <section className="catalog-item">
-      <h2 className="text-center">{item?.title}</h2>
+      {data && <><h2 className="text-center">{data.title}</h2>
       <div className="row">
         <div className="col-5">
-          <img src={item?.images ? item?.images[0] : ''} className="img-fluid" alt={item?.title} />
+          <img src={data.images?.length > 0 ? data.images[0] : ''} className="img-fluid" alt={data.title} />
         </div>
         <div className="col-7">
           <table className="table table-bordered">
             <tbody>
               <tr>
                 <td>Артикул</td>
-                <td>{item?.sku}</td>
+                <td>{data.sku}</td>
               </tr>
               <tr>
                 <td>Производитель</td>
-                <td>{item?.manufacturer}</td>
+                <td>{data.manufacturer}</td>
               </tr>
               <tr>
                 <td>Цвет</td>
-                <td>{item?.color}</td>
+                <td>{data.color}</td>
               </tr>
               <tr>
                 <td>Материалы</td>
-                <td>{item?.material}</td>
+                <td>{data.material}</td>
               </tr>
               <tr>
                 <td>Сезон</td>
-                <td>{item?.season}</td>
+                <td>{data.season}</td>
               </tr>
               <tr>
                 <td>Повод</td>
-                <td>{item?.reason}</td>
+                <td>{data.reason}</td>
               </tr>
             </tbody>
           </table>
           <div className="text-center">
             <p>Размеры в наличии:
-              {item?.sizes.map((el, i) => el.avalible ?
+              {data.sizes.map((el, i) => el.avalible ?
                 <span className={`catalog-item-size ${select === el.size ? 'selected' : ''}`}
                   onClick={() => checkSelected(el.size)} key={i}>{el.size}</span> : null)}
             </p>
-            {item?.sizes.some((el) => el.avalible === true) ?
+            {data.sizes.some((el) => el.avalible === true) ?
               <p>Количество:
                 <span className="btn-group btn-group-sm pl-2">
-                  <button className="btn btn-secondary" onClick={() => dispatch(decrement())}>-</button>
+                  <button className="btn btn-secondary" onClick={() => setCount(prev => {
+                    if (prev > 0) {
+                      return prev - 1
+                    }
+                    return prev
+                  })}>-</button>
                   <span className="btn btn-outline-primary">{count}</span>
-                  <button className="btn btn-secondary" onClick={() => dispatch(increment())}>+</button>
+                  <button className="btn btn-secondary" onClick={() => setCount(prev => prev + 1)}>+</button>
                 </span>
               </p> : null}
           </div>
-          {item?.sizes.some((el) => el.avalible === true) && select !== null && count !== 0 ?
+          {data.sizes.some((el) => el.avalible === true) && select !== null && count !== 0 ?
             <button className="btn btn-danger btn-block btn-lg"
               onClick={toCartMarket}>В корзину</button> : null}
         </div>
-      </div>
+      </div> </>}
     </section>
   );
-};
+}
