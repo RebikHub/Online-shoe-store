@@ -16,12 +16,12 @@ export default function AppRoutes() {
         <Route index element={
           <>
             <TopSales />
-            <Catalog children={null} />
+            <Catalog />
           </>
         } />
         <Route path="/catalog" element={
           <Catalog>
-            <FormSearch classStyle={null} />
+            <FormSearch />
           </Catalog>} />
         <Route path="/about" element={<About />} />
         <Route path="/contacts" element={<Contacts />} />

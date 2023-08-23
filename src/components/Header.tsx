@@ -1,35 +1,39 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import headerLogo from '../media/img/header-logo.png';
 import { ReactElement } from 'react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-// import getArrayFromStorage from '../utils/arrayFromStorage';
+import { Link, NavLink } from 'react-router-dom';
 import FormSearch from './FormSearch';
 import HeaderCart from './HeaderCart';
+import useSearchStore from '../store/search';
+import { QueryKeys } from '../types/keys';
+import { useQuery } from '@tanstack/react-query';
+import { getSearch } from '../api/httpServices';
 
 export default function Header(): ReactElement {
-  const [inputForm, setInputForm] = useState<string>('invisible');
-  const navigate = useNavigate();
-  const location = useLocation();
-  const search = ''
+  const [isHidden, setIsHidden] = useState(true)
+  const { search, clearSearch } = useSearchStore()
 
-  useEffect(() => {
-    // const local = getArrayFromStorage();
-    // dispatch(updateCart(local));
-    if (location.pathname !== '/catalog' && search !== '') {
-      // dispatch(clearSearch());
-    } else if (location.pathname === '/catalog') {
-      setInputForm('invisible');
-    }
-  }, []);
+  const { refetch } = useQuery({
+    queryKey: [QueryKeys.GetSearch],
+    queryFn: () => {
+      if (search.trim() !== '') {
+        return getSearch(search)
+      }
+    },
+    onSuccess: () => {
+      clearSearch()
+      setIsHidden(true)
+    },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  })
 
-  function toggleSearch() {
-    if (inputForm === 'invisible' && location.pathname !== '/catalog') {
-      setInputForm('');
-    } else if (inputForm === '' && search !== '' && location.pathname !== '/catalog') {
-      setInputForm('invisible');
-      navigate('/catalog');
-    } else if (inputForm === '' && search === '' && location.pathname !== '/catalog') {
-      setInputForm('invisible');
+  function handleSearch() {
+    if (isHidden) {
+      setIsHidden(false)
+    } else {
+      refetch()
     }
   }
 
@@ -59,10 +63,10 @@ export default function Header(): ReactElement {
               </ul>
               <div>
                 <div className="header-controls-pics">
-                  <div data-id="search-expander" onClick={toggleSearch} className="header-controls-pic header-controls-search"></div>
+                  <div data-id="search-expander" onClick={handleSearch} className="header-controls-pic header-controls-search"></div>
                   <HeaderCart />
                 </div>
-                <FormSearch classStyle={`header-controls-search-form ${inputForm}`} />
+                {!isHidden && <FormSearch classStyle='header-controls-search-form' handleSearch={handleSearch} />}
               </div>
             </div>
           </nav>

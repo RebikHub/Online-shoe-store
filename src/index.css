@@ -41,7 +41,7 @@ section {
   height: 32px;
   width: 32px;
   margin: 0 10px;
-  background-image: url(../src/img/header-controls-sprite.png);
+  background-image: url(../src/media/img/header-controls-sprite.png);
   background-repeat: no-repeat;
   cursor: pointer;
 }

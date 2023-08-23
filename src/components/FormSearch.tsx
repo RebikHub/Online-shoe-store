@@ -1,56 +1,52 @@
 import { ChangeEvent, ReactElement, SyntheticEvent, useState } from 'react';
-// import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  useMutation,
+  useQuery
 } from '@tanstack/react-query'
 import { getSearch } from '../api/httpServices';
+import { QueryKeys } from '../types/keys';
+import useSearchStore from '../store/search';
 
 type Props = {
-  classStyle: string | null
+  classStyle?: string
+  handleSearch?: (done: boolean, callback?: () => void) => void
 }
 
-export default function FormSearch({ classStyle }: Props): ReactElement {
+export default function FormSearch({ classStyle, handleSearch }: Props): ReactElement {
   const [inputSearch, setInputSearch] = useState('')
 
-  const getSearchMut = useMutation(getSearch)
-  // const { search } = useAppSelector((state) => state.searchSlice);
-  // const dispatch = useAppDispatch();
-  // const location = useLocation();
-  // const navigate = useNavigate();
+  const { setSearch, clearSearch } = useSearchStore()
 
-  // function submit(ev: SyntheticEvent) {
-  //   ev.preventDefault()
-  //   if (location.pathname !== '/catalog' && search !== '') {
-  //     navigate('/catalog');
-  //     dispatch(getSearch(search));
-  //     dispatch(clearSearch());
-  //   } else {
-  //     dispatch(getSearch(search));
-  //     dispatch(clearSearch());
-  //   };
-  // };
+  const { refetch } = useQuery({
+    queryKey: [QueryKeys.GetSearch],
+    queryFn: () => {
+      if (inputSearch.trim() !== '') {
+        return getSearch(inputSearch)
+      }
+    },
+    onSuccess: () => {
+      setInputSearch('')
+      clearSearch()
+      handleSearch?.(true)
+    },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  })
+
 
   function submit(ev: SyntheticEvent) {
     ev.preventDefault()
-    getSearchMut.mutate(inputSearch, {
-      onError: (e) => {
-        console.error(e)
-      },
-      // onSettled: () => {
-
-      // },
-      onSuccess: (data) => {
-        console.log('getSearch-Data: ', data);
-
-      },
-    })
+    refetch()
   }
 
   return (
     <form className={`${classStyle ? classStyle : 'catalog-search-form'} form-inline`} onSubmit={submit}>
       <input className="form-control" placeholder="Поиск"
         value={inputSearch}
-        onChange={(ev: ChangeEvent<HTMLInputElement>) => setInputSearch(ev.target.value)} />
+        onChange={(ev: ChangeEvent<HTMLInputElement>) => {
+          setInputSearch(ev.target.value)
+          setSearch(ev.target.value)
+        }} />
     </form>
   );
 }

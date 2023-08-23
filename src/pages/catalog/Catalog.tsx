@@ -10,9 +10,8 @@ import { Category, Products } from "../../types/interfaces";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCategories, getCategory } from "../../api/httpServices";
 
-
 type Props = {
-  children: ReactNode | null;
+  children?: ReactNode
 };
 
 export default function Catalog({ children }: Props): ReactElement {
@@ -36,7 +35,7 @@ export default function Catalog({ children }: Props): ReactElement {
           setIsMore(true)
           return [...data]
         })
-      } 
+      }
     }
   })
 
@@ -47,10 +46,21 @@ export default function Catalog({ children }: Props): ReactElement {
     refetchOnWindowFocus: false
   })
 
+  const { isLoading: searchLoading } = useQuery({
+    queryKey: [QueryKeys.GetSearch],
+    onSuccess: (data) => {
+      if (Array.isArray(data) && data.length > 0) {
+        setItems(data)
+        setIsMore(false)
+      }
+    }
+  })
+
+
   const handleCategoryClick = (ev: SyntheticEvent, id: number = 0) => {
     ev.preventDefault()
     setCurrentCategory(id)
-    getCategoryMut.mutate({ id, page: 1 }, { onSuccess: () => setPage(2)})
+    getCategoryMut.mutate({ id, page: 1 }, { onSuccess: () => setPage(2) })
   };
 
   const handleMore = () => {
@@ -89,7 +99,7 @@ export default function Catalog({ children }: Props): ReactElement {
             ))}
           </ul>
 
-          {getCategoryMut.isLoading && page === 1 ? <Preloader /> :
+          {searchLoading || (getCategoryMut.isLoading && page === 1) ? <Preloader /> :
             <div className="row">
               {!getCategoryMut.data && items.length === 0 && !getCategoryMut.isError ? (
                 <ResponseSearch />
