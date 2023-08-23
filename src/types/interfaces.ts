@@ -1,29 +1,3 @@
-// export interface IStatus {
-//   loading: boolean;
-//   error: null | string;
-// }
-
-// export interface ICart extends IStatus { // cartslice
-//   orders: TOrder[] | null;
-//   status: boolean;
-// }
-
-// export interface ICategories extends IStatus { // categoriesslice
-//   categories: Category[] | null;
-//   id: null | number;
-// }
-
-// export interface IItems extends IStatus { // Itemsslice
-//   items: Products[] | null;
-//   item: Products | null;
-//   empty: boolean;
-//   searchResponse: boolean;
-// }
-
-// export interface ITopSales extends IStatus { // topsalesslice
-//   topSales: Products[] | null;
-// }
-
 export interface ICart { // cartslice
   orders: TOrder[] | null;
   status: boolean;
@@ -55,11 +29,15 @@ export type Size = {
   avalible: boolean
 }
 
-export type Products = {
-  id: number,
-  category: number,
-  title: string,
-  images: string[],
+export interface BaseProduct {
+  id: number
+  category: number
+  title: string
+  price: number
+  images: string[]
+}
+
+export interface Products extends BaseProduct {
   sku: string,
   manufacturer: string,
   color: string,

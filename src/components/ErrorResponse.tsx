@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
 
 type Props = {
-  error: string,
+  error?: string,
   handleError?: () => void
 };
 
-export default function ErrorResponse({ error, handleError }: Props): ReactElement {
+export default function ErrorResponse({ error = 'Что то пошло не так!', handleError }: Props): ReactElement {
   return (
     <div className='error'>
       <p className='error-text'>{error}</p>

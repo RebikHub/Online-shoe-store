@@ -32,16 +32,25 @@ export async function getCategories() {
   return await baseApi(config)
 }
 
-export async function getItems(id: number) {
+export async function getCategory(id: number) {
   const config = {
-    url: EndpointApi.Items + `/${id}`
+    url: EndpointApi.Categories + `/${id}`
   }
   return await baseApi(config)
 }
 
-export async function getItemsMore(id: number | null, offset: number) {
+export async function getCategoryPage({ id, page }: { id: number, page: number }) {
   const config = {
-    url: EndpointApi.Items + (id ? `?categoryId=${id}&offset=${offset}` : `?offset=${offset}`)
+    url: EndpointApi.Categories + `/${id}?page=${page}&limit=6`
+  }
+  return await baseApi(config)
+}
+
+// /api/categories/:id?page=2&limit=10
+
+export async function getItemsMore({ id, offset }: { id: number, offset: number }) {
+  const config = {
+    url: EndpointApi.Items + `?categoryId=${id}&offset=${offset}`
   }
   return await baseApi(config)
 }

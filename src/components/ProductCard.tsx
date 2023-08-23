@@ -1,35 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Products } from '../types/interfaces';
-import { useAppDispatch } from '../store/hooks';
-import { getOrderItem } from '../store/middleware';
+import {
+  BaseProduct
+} from '../types/interfaces';
 
 type Props = {
-  item: Products
+  item: BaseProduct
 };
 
 export default function ProductCard({ item }: Props) {
-  const dispatch = useAppDispatch();
-  const [image, setImage] = useState<string>('');
+  // const [image, setImage] = useState<string>('');
 
-  useEffect(() => {
-    item.images.map((el) => {
-      const img = new Image();
-      img.src = el;
-      return img.onload = () => {
-        if (img.height > 400) {
-          return setImage(el);
-        };
-        return setImage('');
-      };
-    });
-  }, [item.images]);
+  console.log('productcard: ', item.images);
+
+
+  // useEffect(() => {
+  //   item.images.map((el) => {
+  //     const img = new Image();
+  //     img.src = el;
+  //     return img.onload = () => {
+  //       if (img.height > 400) {
+  //         return setImage(el);
+  //       }
+  //       return setImage('');
+  //     };
+  //   });
+  // }, [item.images]);
+
+  function handleOrderItem(id: number) {
+    console.log('productCard-itemId: ', id);
+
+  }
 
   return (
     <div className="col-4">
       <div className="card catalog-item-card">
         <div className='card-block'>
-          <img src={image === '' ? item.images[0] : image}
+          <img src={item.images[0]}
             className="card-img-top img-fluid" alt={item.title} />
         </div>
         <div className="card-body">
@@ -37,9 +44,9 @@ export default function ProductCard({ item }: Props) {
           <p className="card-price">{item.price}</p>
           <Link to={`/catalog/${item.id}`}
             className="btn btn-outline-primary"
-            onClick={() => dispatch(getOrderItem(item.id))}>Заказать</Link>
+            onClick={() => handleOrderItem(item.id)}>Заказать</Link>
         </div>
       </div>
     </div>
   );
-};
+}
