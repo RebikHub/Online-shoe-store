@@ -5,6 +5,7 @@ import {
   useMutation,
 } from '@tanstack/react-query'
 import { getOrderItem } from '../api/httpServices';
+import { useCartStore } from '../store/orders';
 
 type Props = {
   i: number,
@@ -13,20 +14,17 @@ type Props = {
 
 export default function TableCart({ item, i }: Props): ReactElement {
   const getOrderItemMut = useMutation(getOrderItem)
+  const { removeItem } = useCartStore()
 
   function removeOrder() {
-    sessionStorage.removeItem(`${item.id}`);
+    removeItem(item.id);
   }
 
   function handleCatalogItem() {
     getOrderItemMut.mutate(item.id, {
       onError: (e) => {
         console.error(e)
-      },
-      onSuccess: (data) => {
-        console.log('getOrderItem-Data: ', data);
-
-      },
+      }
     })
   }
 

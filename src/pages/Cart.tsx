@@ -1,16 +1,10 @@
-import { ReactElement, useEffect, useState } from "react";
-import getArrayFromStorage from "../utils/arrayFromStorage";
-import { TOrder } from "../types/interfaces";
+import { ReactElement } from "react";
 import Checkout from "../components/Checkout";
 import TableCart from "../components/TableCart";
+import { useCartStore } from "../store/orders";
 
 export default function Cart(): ReactElement {
-  const [order, setOrder] = useState<TOrder[]>([]);
-
-  useEffect(() => {
-    const local = getArrayFromStorage();
-    setOrder(local);
-  }, []);
+  const { orders } = useCartStore()
 
   return (
     <>
@@ -29,10 +23,10 @@ export default function Cart(): ReactElement {
             </tr>
           </thead>
           <tbody>
-            {order.map((el, i) => <TableCart item={el} i={i} key={i} />)}
+            {orders.map((el, i) => <TableCart item={el} i={i} key={i} />)}
             <tr>
               <td colSpan={5} className="text-right">Общая стоимость</td>
-              <td>{order.reduce((a, b) => a + (b.price * b.count), 0)}</td>
+              <td>{orders.reduce((a, b) => a + (b.price * b.count), 0)}</td>
             </tr>
           </tbody>
         </table>

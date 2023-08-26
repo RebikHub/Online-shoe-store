@@ -22,6 +22,7 @@ export default function FormSearch({ classStyle, handleSearch }: Props): ReactEl
       if (inputSearch.trim() !== '') {
         return getSearch(inputSearch)
       }
+      return null
     },
     onSuccess: () => {
       setInputSearch('')
@@ -32,7 +33,6 @@ export default function FormSearch({ classStyle, handleSearch }: Props): ReactEl
     refetchOnMount: false,
     refetchOnReconnect: false,
   })
-
 
   function submit(ev: SyntheticEvent) {
     ev.preventDefault()

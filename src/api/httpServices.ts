@@ -12,7 +12,9 @@ async function baseApi(apiConfig: BaseApiType) {
       throw new Error('Что то пошло не так!');
     }
 
-    return await response.json();
+    const data = await response.json();
+    console.log('baseApi-data: ', data);
+    return data
   } catch (e) {
     console.error('Что то пошло не так!');
   }
@@ -55,7 +57,7 @@ export async function getSearch(text: string) {
 
 export async function getOrderItem(id: number) {
   const config = {
-    url: EndpointApi.Items + `/${id}`
+    url: EndpointApi.Item + `?id=${id}`
   }
   return await baseApi(config)
 }
