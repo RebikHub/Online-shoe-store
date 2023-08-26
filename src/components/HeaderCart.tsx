@@ -1,26 +1,19 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCartStore } from '../store/orders';
 
 export default function HeaderCart(): ReactElement {
-  const [amount, setAmount] = useState<null | number>(null);
-  // const {orders} = useAppSelector((state) => state.cartSlice);
+  const { orders } = useCartStore()
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if (orders && orders.length > 0) {
-  //     setAmount(orders.length);
-  //   } else {
-  //     setAmount(null);
-  //   };
-  // }, [orders]);
 
   return (
     <div className="header-controls-pic header-controls-cart" onClick={() => navigate('/cart')}>
-      {amount !== null ?
+      {orders.length > 0 ?
         <div>
-          <div className="header-controls-cart-full">{amount}</div>
+          <div className="header-controls-cart-full">{orders.length}</div>
           <div className="header-controls-cart-menu"></div>
         </div> : null}
     </div>
   );
-};
+}

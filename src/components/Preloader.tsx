@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 export default function Preloader(): ReactElement {
   return (
@@ -9,4 +9,4 @@ export default function Preloader(): ReactElement {
       <span></span>
     </div>
   );
-};
+}
