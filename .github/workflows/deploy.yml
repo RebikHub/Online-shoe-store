@@ -28,4 +28,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           branch: gh-pages
-          folder: build  # замените на вашу папку с собранным контентом
+          folder: dist  # замените на вашу папку с собранным контентом
