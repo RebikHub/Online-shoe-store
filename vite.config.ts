@@ -1,11 +1,11 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     plugins: [react()],
+    base: '/Online-shoe-store/',
     define: {
       // 'process.env.BASE_API_URL': JSON.stringify(env.BASE_API_URL),
       // 'process.env.YOUR_BOOLEAN_VARIABLE': env.YOUR_BOOLEAN_VARIABLE,
