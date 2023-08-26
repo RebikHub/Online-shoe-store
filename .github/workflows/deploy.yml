@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # замените на вашу целевую ветку
+      - main
 
 jobs:
   deploy:
@@ -16,16 +16,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 16  # замените на вашу версию Node.js
+          node-version: 16
 
       - name: Install Dependencies
         run: npm install
 
       - name: Build
-        run: npm run build  # замените на вашу команду сборки
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@releases/v4
         with:
           branch: gh-pages
-          folder: dist  # замените на вашу папку с собранным контентом
+          folder: dist
