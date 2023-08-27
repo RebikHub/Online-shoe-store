@@ -9,12 +9,6 @@ interface ICartState {
   addItem: (order: TOrder) => void;
 }
 
-// count: number;
-// id: number;
-// price: number;
-// size: string;
-// title: string;
-
 export const useCartStore = create(persist<ICartState>(
   (set) => ({
     orders: [],
@@ -27,11 +21,9 @@ export const useCartStore = create(persist<ICartState>(
           return {
             orders: [...state.orders.map((item) => {
               if (item.id === order.id && item.size === order.size) {
-                const sumCount = item.count + order.count
                 return {
                   ...item,
-                  count: sumCount,
-                  price: item.price * sumCount
+                  count: item.count + order.count,
                 }
               }
               return item

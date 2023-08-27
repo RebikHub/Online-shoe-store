@@ -112,7 +112,7 @@ export default function Order(): ReactElement {
                     </span>
                   </p> : null}
               </div>
-              {data.sizes.some((el) => el.avalible === true) && select !== null && count !== 0 ?
+              {data.sizes.some((el) => el.avalible === true) && select !== '' && count !== 0 ?
                 <button className="btn btn-danger btn-block btn-lg"
                   onClick={toCartMarket}>В корзину</button> : null}
             </div>
