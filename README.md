@@ -1,3 +1,4 @@
+[![Deploy to GitHub Pages](https://github.com/RebikHub/Online-shoe-store/actions/workflows/deploy.yml/badge.svg)](https://github.com/RebikHub/Online-shoe-store/actions/workflows/deploy.yml)
 
 [Link to project](https://rebikhub.github.io/Online-shoe-store/)
 
