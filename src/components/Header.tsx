@@ -5,29 +5,16 @@ import { Link, NavLink } from 'react-router-dom';
 import FormSearch from './FormSearch';
 import HeaderCart from './HeaderCart';
 import useSearchStore from '../store/search';
-import { QueryKeys } from '../types/keys';
-import { useQuery } from '@tanstack/react-query';
-import { getSearch } from '../api/httpServices';
+import { useFormSearchQuery } from '../services/query-hooks/useFormSearchQuery';
 
 export default function Header(): ReactElement {
   const [isHidden, setIsHidden] = useState(true)
   const { search, clearSearch } = useSearchStore()
 
-  const { refetch } = useQuery({
-    queryKey: [QueryKeys.GetSearch],
-    queryFn: () => {
-      if (search.trim() !== '') {
-        return getSearch(search)
-      }
-      return null
-    },
-    onSuccess: () => {
-      clearSearch()
-      setIsHidden(true)
-    },
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
+  const { refetch } = useFormSearchQuery({
+    inputSearch: search,
+    clearSearch,
+    handleSearch: setIsHidden
   })
 
   function handleSearch() {

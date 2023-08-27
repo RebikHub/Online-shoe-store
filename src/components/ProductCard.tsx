@@ -8,26 +8,6 @@ type Props = {
 };
 
 export default function ProductCard({ item }: Props) {
-  // const [images, setImage] = useState<string>('');
-
-  // useEffect(() => {
-  //   item.images.map((el) => {
-  //     const img = new Image();
-  //     img.src = el;
-  //     return img.onload = () => {
-  //       if (img.height > 400) {
-  //         return setImage(el);
-  //       }
-  //       return setImage('');
-  //     };
-  //   });
-  // }, [item.images]);
-
-
-  function handleOrderItem(id: number) {
-    console.log('order-item-id: ', id);
-    
-  }
 
   return (
     <div className="col-4">
@@ -40,8 +20,7 @@ export default function ProductCard({ item }: Props) {
           <p className="card-text">{item.title}</p>
           <p className="card-price">{item.price}</p>
           <Link to={`/catalog/${item.id}`}
-            className="btn btn-outline-primary"
-            onClick={() => handleOrderItem(item.id)}>Заказать</Link>
+            className="btn btn-outline-primary">Заказать</Link>
         </div>
       </div>
     </div>

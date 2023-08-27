@@ -31,7 +31,7 @@ export default function Cart(): ReactElement {
           </tbody>
         </table>
       </section>
-      <Checkout />
+      {orders.length > 0 && <Checkout />}
     </>
   );
 }

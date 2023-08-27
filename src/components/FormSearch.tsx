@@ -1,10 +1,6 @@
 import { ChangeEvent, ReactElement, SyntheticEvent, useState } from 'react';
-import {
-  useQuery
-} from '@tanstack/react-query'
-import { getSearch } from '../api/httpServices';
-import { QueryKeys } from '../types/keys';
 import useSearchStore from '../store/search';
+import { useFormSearchQuery } from '../services/query-hooks/useFormSearchQuery';
 
 type Props = {
   classStyle?: string
@@ -16,37 +12,23 @@ export default function FormSearch({ classStyle, handleSearch }: Props): ReactEl
 
   const { setSearch, clearSearch } = useSearchStore()
 
-  const { refetch } = useQuery({
-    queryKey: [QueryKeys.GetSearch],
-    queryFn: () => {
-      if (inputSearch.trim() !== '') {
-        return getSearch(inputSearch)
-      }
-      return null
-    },
-    onSuccess: () => {
-      setInputSearch('')
-      clearSearch()
-      handleSearch?.(true)
-    },
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-  })
+  const { refetch } = useFormSearchQuery({ inputSearch, setInputSearch, clearSearch, handleSearch })
 
   function submit(ev: SyntheticEvent) {
     ev.preventDefault()
     refetch()
   }
 
+  function handleInputSearch(ev: ChangeEvent<HTMLInputElement>) {
+    setInputSearch(ev.target.value)
+    setSearch(ev.target.value)
+  }
+
   return (
     <form className={`${classStyle ? classStyle : 'catalog-search-form'} form-inline`} onSubmit={submit}>
       <input className="form-control" placeholder="Поиск"
         value={inputSearch}
-        onChange={(ev: ChangeEvent<HTMLInputElement>) => {
-          setInputSearch(ev.target.value)
-          setSearch(ev.target.value)
-        }} />
+        onChange={handleInputSearch} />
     </form>
   );
 }

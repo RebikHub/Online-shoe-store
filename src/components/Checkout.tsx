@@ -1,101 +1,111 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { ReactElement } from 'react';
-import { useEffect } from 'react';
+import { useMemo } from 'react';
 import { OrderInput } from '../types/interfaces';
-// import ErrorResponse from './ErrorResponse';
-// import Preloader from './Preloader';
-// import StatusOrder from './StatusOrder';
-import { postOrder } from '../api/httpServices';
+import { postOrder } from '../services/api/httpServices';
 import {
   useMutation
 } from '@tanstack/react-query'
+import { useCartStore } from '../store/orders';
+import Preloader from './Preloader';
+import StatusOrder from './StatusOrder';
+import ErrorResponse from './ErrorResponse';
+import { validatePhoneNumber } from '../utils/validatePhoneNumber';
 
 export default function Checkout(): ReactElement {
-  // const { orders, loading, status, error } = useAppSelector((state) => state.cartSlice);
   const [input, setInput] = useState<OrderInput>({
     phone: '',
-    address: ''
+    address: '',
+    checkbox: false
   });
-  const [errorOrder, setErrorOrder] = useState<boolean>(false);
-  // const dispatch = useAppDispatch();
-  const orders = {
-    count: 0,
-    id: 0,
-    price: 0,
-    size: 'string',
-    title: 'string'
-  } // mock data
+  const [validate, setValidate] = useState({
+    phone: false,
+    address: false,
+  })
+  const { orders } = useCartStore()
   const postOrderMut = useMutation(postOrder)
+  const isDisabledButton = useMemo(() => input.phone === '' || input.address === '' || !input.checkbox,
+    [input.address, input.checkbox, input.phone])
 
-  function submit() {
-    if (input.address !== '' && input.phone !== '' && orders) {
-      postOrderMut.mutate(
-        {
-          owner: input,
-          items: [orders]
-        },
-        {
-          onError: (e) => {
-            console.error(e)
+  function submit(ev?: FormEvent<HTMLFormElement>) {
+    ev?.preventDefault()
+    if (!isDisabledButton) {
+      if (validatePhoneNumber(input.phone)) {
+        postOrderMut.mutate(
+          {
+            owner: input,
+            items: orders
           },
-          onSuccess: (data) => {
-            console.log('postOrder-data: ', data)
+          {
+            onError: (e) => {
+              console.error(e)
+            }
           }
-        }
-      )
-      setInput({
-        phone: '',
-        address: ''
-      });
-    } else {
-      setErrorOrder(true);
+        )
+        setInput({
+          phone: '',
+          address: '',
+          checkbox: false
+        });
+      } else {
+        setValidate({
+          phone: !validatePhoneNumber(input.phone),
+          address: input.address === '',
+        })
+      }
     }
   }
 
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (errorOrder) {
-      timer = setTimeout(() => setErrorOrder(false), 3 * 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [errorOrder])
+  function handleInputPhone(ev: ChangeEvent<HTMLInputElement>) {
+    setInput((prev) => ({ ...prev, phone: ev.target.value.trim() }))
+  }
 
-  // if (error || errorOrder) {
-  //   return <ErrorResponse
-  //     error={error ? error : orders === null ? 'Добавьте товар в карзину!' : 'Заполните все поля!'}
-  //     handleError={submit} />
-  // }
+  function handleInputAddress(ev: ChangeEvent<HTMLInputElement>) {
+    setInput((prev) => ({ ...prev, address: ev.target.value.trim() }))
+  }
 
-  // if (status) {
-  //   return <StatusOrder />
-  // }
+  function handleInputCheckbox(ev: ChangeEvent<HTMLInputElement>) {
+    setInput((prev) => ({ ...prev, checkbox: ev.target.checked }))
+  }
 
-  // if (loading) {
-  //   return <Preloader />
-  // }
+  if (postOrderMut.isError) {
+    return <ErrorResponse
+      error={'Заполните все поля!'}
+      handleError={() => submit()} />
+  }
+
+  if (postOrderMut.isSuccess && postOrderMut.data === 'Order succeed!') {
+    return <StatusOrder />
+  }
+
+  if (postOrderMut.isLoading) {
+    return <Preloader />
+  }
 
   return (
     <section className="order">
       <h2 className="text-center">Оформить заказ</h2>
       <div className="card" style={{ maxWidth: '30rem', margin: '0 auto' }}>
-        <form className="card-body">
+        <form className="card-body" onSubmit={submit}>
           <div className="form-group">
             <label htmlFor="phone">Телефон</label>
             <input className="form-control" placeholder="Ваш телефон"
               value={input.phone}
-              onChange={(ev: ChangeEvent<HTMLInputElement>) => setInput((prev) => ({ ...prev, phone: ev.target.value }))} />
+              onChange={handleInputPhone} />
+            {validate.phone && !validatePhoneNumber(input.phone) && <p style={{ color: 'red', fontSize: '12px' }}>Не правильно введен номер!</p>}
           </div>
           <div className="form-group">
             <label htmlFor="address">Адрес доставки</label>
             <input className="form-control" id="address" placeholder="Адрес доставки"
               value={input.address}
-              onChange={(ev: ChangeEvent<HTMLInputElement>) => setInput((prev) => ({ ...prev, address: ev.target.value }))} />
+              onChange={handleInputAddress} />
+            {validate.address && <p style={{ color: 'red', fontSize: '12px' }}>Не правильно введен адрес!</p>}
           </div>
           <div className="form-group form-check">
-            <input type="checkbox" className="form-check-input" id="agreement" />
+            <input type="checkbox" className="form-check-input" id="agreement" onChange={handleInputCheckbox} />
             <label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
           </div>
-          <button type="submit" className="btn btn-outline-secondary" onClick={submit}>Оформить</button>
+          <button disabled={isDisabledButton} type="submit" className={`btn btn-outline-secondary ${isDisabledButton ? 'disabled' : ''}`}>Оформить</button>
         </form>
       </div>
     </section>

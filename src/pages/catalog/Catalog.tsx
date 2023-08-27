@@ -5,10 +5,10 @@ import Preloader from "../../components/Preloader";
 import ProductCard from "../../components/ProductCard";
 import ResponseSearch from "../../components/ResponseSearch";
 import css from './Catalog.module.css';
-import { QueryKeys } from "../../types/keys";
-import { Category, Products } from "../../types/interfaces";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getCategories, getCategory } from "../../api/httpServices";
+import { useCatalogQuery } from "../../services/query-hooks/useCatalogQuery";
+import { useMutation } from "@tanstack/react-query";
+import { getCategory } from "../../services/api/httpServices";
+import { Category, Products } from "../../types/types";
 
 type Props = {
   children?: ReactNode
@@ -39,23 +39,18 @@ export default function Catalog({ children }: Props): ReactElement {
     }
   })
 
-  const { isLoading, isError, data, refetch } = useQuery({
-    queryKey: [QueryKeys.GetCategories],
-    queryFn: () => getCategories(),
-    onSuccess: () => getCategoryMut.mutate({ id: 0, page: 1 }, { onSuccess: () => setPage(2) }),
-    refetchOnWindowFocus: false
+  const {
+    isLoading,
+    isError,
+    data,
+    refetch,
+    searchLoading
+  } = useCatalogQuery({
+    getCategoryMut,
+    setPage,
+    setItems,
+    setIsMore
   })
-
-  const { isLoading: searchLoading } = useQuery({
-    queryKey: [QueryKeys.GetSearch],
-    onSuccess: (data) => {
-      if (Array.isArray(data) && data.length > 0) {
-        setItems(data)
-        setIsMore(false)
-      }
-    }
-  })
-
 
   const handleCategoryClick = (ev: SyntheticEvent, id: number = 0) => {
     ev.preventDefault()

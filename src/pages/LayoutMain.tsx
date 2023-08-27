@@ -1,8 +1,8 @@
 import { ReactElement } from 'react';
 import { Outlet } from 'react-router-dom';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import banner from '../../media/img/banner.jpg'
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import banner from '../media/img/banner.jpg'
 
 export default function LayoutMain(): ReactElement {
   return (

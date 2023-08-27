@@ -1,6 +1,6 @@
-import { EndpointApi } from "../types/enum";
-import { PostOrderItem } from "../types/interfaces";
-import { BaseApiType } from "../types/types";
+import { EndpointApi } from "../../types/enum";
+import { PostOrderItem } from "../../types/interfaces";
+import { BaseApiType } from "../../types/types";
 
 
 async function baseApi(apiConfig: BaseApiType) {
@@ -13,10 +13,11 @@ async function baseApi(apiConfig: BaseApiType) {
     }
 
     const data = await response.json();
-    console.log('baseApi-data: ', data);
-    return data
+
+    return data || []
+
   } catch (e) {
-    console.error('Что то пошло не так!');
+    console.error(e);
   }
 }
 
@@ -41,13 +42,6 @@ export async function getCategory({ id, page }: { id: number, page: number }) {
   return await baseApi(config)
 }
 
-// export async function getItemsMore({ id, offset }: { id: number, offset: number }) {
-//   const config = {
-//     url: EndpointApi.Items + `?categoryId=${id}&offset=${offset}`
-//   }
-//   return await baseApi(config)
-// }
-
 export async function getSearch(text: string) {
   const config = {
     url: EndpointApi.Items + `?q=${text}`
@@ -67,7 +61,10 @@ export async function postOrder(item: PostOrderItem) {
     url: EndpointApi.Order,
     options: {
       method: 'POST',
-      body: JSON.stringify(item)
+      body: JSON.stringify(item) as string,
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
   }
   return await baseApi(config)

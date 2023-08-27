@@ -1,29 +1,18 @@
 import { ReactElement, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-// import getArrayFromStorage from '../utils/arrayFromStorage';
-import { Products } from '../types/interfaces';
 import ErrorResponse from '../components/ErrorResponse';
 import Preloader from '../components/Preloader';
-import { useQuery } from '@tanstack/react-query';
-import { getOrderItem } from '../api/httpServices';
-import { QueryKeys } from '../types/keys';
 import { useCartStore } from '../store/orders';
+import { useOrderQuery } from '../services/query-hooks/useOrderQuery';
 
 export default function Order(): ReactElement {
   const [count, setCount] = useState(0);
   const [select, setSelect] = useState<string>('');
   const navigate = useNavigate();
   const { id } = useParams();
+  const { addItem } = useCartStore()
 
-  const { addItem, orders } = useCartStore()
-
-  console.log(orders);
-
-  const { data, isError, isLoading, refetch } = useQuery<Products>({
-    queryKey: [QueryKeys.GetOrderItem],
-    queryFn: () => getOrderItem(Number(id)),
-    refetchOnWindowFocus: false
-  })
+  const { data, isError, isLoading, refetch } = useOrderQuery(id)
 
 
   function checkSelected(size: string) {
@@ -45,6 +34,19 @@ export default function Order(): ReactElement {
       })
       navigate('/cart');
     }
+  }
+
+  function increment() {
+    setCount(prev => prev + 1)
+  }
+
+  function decrement() {
+    setCount(prev => {
+      if (prev > 0) {
+        return prev - 1
+      }
+      return prev
+    })
   }
 
   if (isError) {
@@ -101,14 +103,9 @@ export default function Order(): ReactElement {
                 {data.sizes.some((el) => el.avalible === true) ?
                   <p>Количество:
                     <span className="btn-group btn-group-sm pl-2">
-                      <button className="btn btn-secondary" onClick={() => setCount(prev => {
-                        if (prev > 0) {
-                          return prev - 1
-                        }
-                        return prev
-                      })}>-</button>
+                      <button className="btn btn-secondary" onClick={decrement}>-</button>
                       <span className="btn btn-outline-primary">{count}</span>
-                      <button className="btn btn-secondary" onClick={() => setCount(prev => prev + 1)}>+</button>
+                      <button className="btn btn-secondary" onClick={increment}>+</button>
                     </span>
                   </p> : null}
               </div>

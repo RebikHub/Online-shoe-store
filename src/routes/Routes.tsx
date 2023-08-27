@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import LayoutMain from "../pages/layout-main/LayoutMain";
+import LayoutMain from "../pages/LayoutMain";
 import TopSales from "../components/TopSales";
 import Catalog from "../pages/catalog/Catalog";
 import FormSearch from "../components/FormSearch";

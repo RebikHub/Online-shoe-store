@@ -4,7 +4,7 @@ import { TOrder } from '../types/interfaces';
 import {
   useMutation,
 } from '@tanstack/react-query'
-import { getOrderItem } from '../api/httpServices';
+import { getOrderItem } from '../services/api/httpServices';
 import { useCartStore } from '../store/orders';
 
 type Props = {
