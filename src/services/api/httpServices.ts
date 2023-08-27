@@ -1,6 +1,5 @@
 import { EndpointApi } from "../../types/enum";
-import { PostOrderItem } from "../../types/interfaces";
-import { BaseApiType } from "../../types/types";
+import { BaseApiType, PostOrderItem } from "../../types/types";
 
 
 async function baseApi(apiConfig: BaseApiType) {

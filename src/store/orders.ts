@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { TOrder } from "../types/interfaces";
+import { TOrder } from '../types/types';
 
 interface ICartState {
   orders: TOrder[];

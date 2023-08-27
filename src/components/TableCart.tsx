@@ -1,11 +1,11 @@
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import { TOrder } from '../types/interfaces';
 import {
   useMutation,
 } from '@tanstack/react-query'
 import { getOrderItem } from '../services/api/httpServices';
 import { useCartStore } from '../store/orders';
+import { TOrder } from '../types/types';
 
 type Props = {
   i: number,

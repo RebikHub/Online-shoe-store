@@ -2,8 +2,8 @@ import { ReactElement } from 'react';
 import ErrorResponse from './ErrorResponse';
 import Preloader from './Preloader';
 import ProductCard from './ProductCard';
-import { BaseProduct } from '../types/interfaces';
 import { useTopSalesQuery } from '../services/query-hooks/useTopSalesQuery';
+import { BaseProduct } from '../types/types';
 
 export default function TopSales(): ReactElement {
   const { isLoading, isError, data, refetch } = useTopSalesQuery()

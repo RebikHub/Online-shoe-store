@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
-import {
-  BaseProduct
-} from '../types/interfaces';
+import { BaseProduct } from '../types/types';
 
 type Props = {
   item: BaseProduct

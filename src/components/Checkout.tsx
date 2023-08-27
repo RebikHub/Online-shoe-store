@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { ReactElement } from 'react';
 import { useMemo } from 'react';
-import { OrderInput } from '../types/interfaces';
 import { postOrder } from '../services/api/httpServices';
 import {
   useMutation
@@ -11,6 +10,7 @@ import Preloader from './Preloader';
 import StatusOrder from './StatusOrder';
 import ErrorResponse from './ErrorResponse';
 import { validatePhoneNumber } from '../utils/validatePhoneNumber';
+import { OrderInput } from '../types/types';
 
 export default function Checkout(): ReactElement {
   const [input, setInput] = useState<OrderInput>({
